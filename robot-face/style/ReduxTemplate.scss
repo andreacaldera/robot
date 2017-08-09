@@ -1,0 +1,38 @@
+body {
+  padding-top: 5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+}
+
+.btn.speech {
+  margin-right: 10px;
+}
+
+.local-video-container {
+  position: relative;
+}
+
+.local-video-container video {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  z-index: 2;
+  top: 180px;
+  left: 260px;
+}
+
+.remove-video-container .videoContainer video {
+  position: absolute;
+  width: 400px;
+  z-index: 1;
+}
+
+.remove-video-waiting {
+  background-color: #b7babf;
+  width: 400px;
+  line-height: 300px;
+  vertical-align: middle;
+  position: absolute;
+  text-align: center;
+}

@@ -1,8 +1,8 @@
 
-import { put, takeLatest, select, call, delay } from 'redux-saga/effects';
+import { put, takeLatest, select, call } from 'redux-saga/effects';
 
 import { getWebRtc } from './selectors';
-import { SET_WEBRTC, START_FACE, FACE_STARTED, REMOVE_VIDEO_REMOVED } from './constants';
+import { SET_WEBRTC, START_FACE, FACE_STARTED } from './constants';
 
 const ROBOT_FACE_ID = 'robot-face-andrea';
 

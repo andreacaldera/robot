@@ -16,8 +16,8 @@ import routes from '../common/routes';
 import { NAMESPACE } from '../common/modules/constants';
 import api from './api';
 
-const privateKey = fs.readFileSync('domain.key', 'utf8');
-const certificate = fs.readFileSync('domain.crt', 'utf8');
+const privateKey = fs.readFileSync('sslcert/domain.key', 'utf8');
+const certificate = fs.readFileSync('sslcert/domain.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const app = Express();

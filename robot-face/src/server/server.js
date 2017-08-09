@@ -8,13 +8,20 @@ import { Provider } from 'react-redux';
 import qs from 'qs';
 import { createMemoryHistory, match, RouterContext } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import fs from 'fs';
+import https from 'https';
 
 import configureStore from '../common/store/configure-store';
 import routes from '../common/routes';
 import { NAMESPACE } from '../common/modules/constants';
 import api from './api';
 
+const privateKey = fs.readFileSync('domain.key', 'utf8');
+const certificate = fs.readFileSync('domain.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
 const app = Express();
+
 const port = 3001;
 
 app.use(cookieParser());
@@ -76,6 +83,9 @@ app.use((req, res) => {
     }
   });
 });
+
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(8443);
 
 app.listen(port, (error) => {
   if (error) {

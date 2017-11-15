@@ -20,6 +20,7 @@ export default ({ port }) => {
       <html>
         <head>
           <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
           <link rel="stylesheet" type="text/css" href="http://localhost:${port}/dist/robotFeet.css" />
           <link rel="stylesheet" href="https://unpkg.com/react-rangeslider/umd/rangeslider.min.css" />
@@ -27,9 +28,6 @@ export default ({ port }) => {
         </head>
         <body>
           <div id="app">${content}</div>
-          <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
           <script>window.__initialState__ = ${JSON.stringify(store.getState()).replace(/</g, '\\x3c')}</script>
           <script src="http://localhost:${port}/dist/robotFeet.js"></script>
         </body>
@@ -53,6 +51,7 @@ export default ({ port }) => {
             meta: {
               featureToggles: activeFeatureToggles,
             },
+            feet: {},
           },
         };
         // const memoryHistory = createMemoryHistory(req.url);

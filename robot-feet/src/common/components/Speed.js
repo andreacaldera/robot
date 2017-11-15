@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 import Slider from 'react-rangeslider';
 
-const min = 0;
+const min = -100;
 const max = 100;
 
 const labels = {
-  [min]: 'Stop',
-  [(max - min) / 2]: 'Medium',
-  [max]: 'Fast',
+  [min]: 'Backwards',
+  0: 'Stop',
+  [max]: 'Forward',
 };
 
 class Speed extends Component {

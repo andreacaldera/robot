@@ -11,6 +11,6 @@ const routes = [
       { path: '*', component: NotFound },
     ],
   },
-]; // TODO error page
+];
 
 export default routes;

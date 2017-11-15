@@ -1,21 +1,18 @@
-// import { createSelector } from 'reselect';
-//
-// import { getFeetSelector } from '../selectors';
+import { createSelector } from 'reselect';
 
-// const getAllClients = createSelector(
-//   getClientSelector,
-//   ({ allClients }) => allClients
-// );
+import { getFeetSelector } from '../selectors';
 
-// const getSelectedClientName = createSelector(
-//   getClientSelector,
-//   ({ selectedClientName }) => selectedClientName
-// );
-//
-// const getSelectedClient = createSelector(
-//   [getAllClients, getSelectedClientName],
-//   (allClients, selectedClientName) => console.log(111, allClients, selectedClientName) || allClients[selectedClientName],
-// );
+const getSpeed = createSelector(
+  getFeetSelector,
+  ({ speed }) => speed
+);
+
+const getSteer = createSelector(
+  getFeetSelector,
+  ({ steer }) => steer
+);
 
 module.exports = {
+  getSpeed,
+  getSteer,
 };

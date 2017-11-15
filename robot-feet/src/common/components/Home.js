@@ -7,11 +7,18 @@ import Speed from './Speed';
 class Home extends Component {
   render() {
     return (
-      <div>
-        <h2>Home</h2>
-        Welcome
-        <Steer />
-        <Speed />
+      <div className="container-fluid">
+        <h2>Control</h2>
+        <div className="row">
+          <div className="col">
+            <Steer />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <Speed />
+          </div>
+        </div>
       </div>
     );
   }

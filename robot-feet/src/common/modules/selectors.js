@@ -8,7 +8,13 @@ const getMetaSelector = createSelector(
   ({ meta }) => meta
 );
 
+const getFeetSelector = createSelector(
+  getRootSelector,
+  ({ feet }) => feet
+);
+
 module.exports = {
   getRootSelector,
   getMetaSelector,
+  getFeetSelector,
 };

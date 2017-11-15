@@ -10,10 +10,8 @@ const TopBar = React.createFactory(TopBarComponent);
 
 const App = ({ route }) => {
   const mainContent = (
-    <div className="container">
-      <div>
-        {renderRoutes(route.routes)}
-      </div>
+    <div>
+      {renderRoutes(route.routes)}
     </div>
   );
 

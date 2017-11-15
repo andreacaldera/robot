@@ -47,7 +47,7 @@ class Steer extends Component {
 const mapDispatchToProps = (dispatch) => ({
   steer: (value) =>
     dispatch({
-      type: 'STEER',
+      type: 'SET_STEER',
       payload: value,
     }),
 });

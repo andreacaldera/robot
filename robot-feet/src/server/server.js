@@ -24,6 +24,7 @@ export default () =>
 
       app.use((expressError, req, res, next) => { // eslint-disable-line no-unused-vars
         console.error(expressError); // eslint-disable-line no-console
+        res.status(500).send('Sorry, an error occured');
       });
 
       app.listen(port, (error) => {

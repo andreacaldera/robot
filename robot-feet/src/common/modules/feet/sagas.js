@@ -1,18 +1,18 @@
-import { takeLatest } from 'redux-saga/effects';
+import { throttle } from 'redux-saga/effects';
 import superagent from 'superagent';
 
-const callMoveApi = () =>
-  superagent('/api/move')
+const callApi = (url) => () =>
+  superagent(url)
     .set('Accept', 'application/json')
     .timeout({ response: 9000, deadline: 10000 })
     .then(({ body }) => body);
 
-function* move() {
-  yield callMoveApi();
+function* watchSpeed() {
+  yield throttle(1000, 'SET_SPEED', callApi('/api/set-speed'));
 }
 
-function* watchMove() {
-  yield takeLatest('MOVE', move);
+function* watchSteer() {
+  yield throttle(1000, 'STEER', callApi('/api/steer'));
 }
 
-export default [watchMove];
+export default [watchSpeed, watchSteer];

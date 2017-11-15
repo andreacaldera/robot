@@ -2,44 +2,25 @@ body {
   padding-top: 5rem;
 }
 
-.invoice-container {
-  padding: 3rem 1.5rem;
-}
+.SteerSlider {
+  & .rangeslider {
+    height: 10px;
+    background-color: lightgrey;
 
-.invoice-row {
-   line-height: 50px;
-}
+    .rangeslider__fill {
+      background-color: lightgrey;
+    }
 
-.invoices__invoice-id-text {
-  width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.collapsible-panel__title {
-  display: inline;
-  vertical-align: middle;
-  margin-right: 10px;
-}
-
-.collapsible-panel {
-  background-color: #F0F0F0;
-  margin-bottom: 10px;
-}
-
-.collapsible-panel__inner-panel {
-  padding: 10px;
-}
-
-.collapsible-panel__header {
-  background-color: lightblue;
-  margin-bottom: 10px;
-  padding: 10px;
-}
-
-.collapsible-panel__header {
-  background-color: lightblue;
-  margin-bottom: 10px;
-  padding: 10px;
+    & .rangeslider__handle {
+      background-color: green;
+      width: 30px;
+      height: 30px;
+      left: -13px;
+      border-radius: 50%;
+      box-shadow: 0 1px 1px #333;
+    }
+    & :after {
+      display: none;
+    }
+  }
 }

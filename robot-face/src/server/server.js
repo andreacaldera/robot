@@ -22,8 +22,6 @@ const port = 3011;
 
 app.use(cors({ credentials: true, origin: 'http://localhost:3001' }));
 
-// app.use(cors());
-
 const getActiveFeatureToggles = (req) => {
   const params = qs.parse(req.query);
   const activeFeatureToggles = (params['feature-toggles'] !== undefined ?

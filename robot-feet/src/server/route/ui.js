@@ -11,7 +11,7 @@ import configureStore from '../../common/store/configure-store';
 import routes from '../../common/routes';
 import { NAMESPACE } from '../../common/modules/constants';
 
-export default ({ port }) => {
+export default () => {
   const router = express.Router();
 
   function renderFullPage(content, store) {

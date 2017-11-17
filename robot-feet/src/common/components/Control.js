@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch) => ({
       type: PLAY_SOUND,
       payload: 'abunai-shiatsu',
     });
-  }
+  },
 });
 
 const mapStateToProps = (state) => ({

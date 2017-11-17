@@ -3,11 +3,15 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import bodyParser from 'body-parser';
 
+import cors from 'cors';
+
 import api from './route/api';
 import ui from './route/ui';
 import config from './config';
 
 const app = Express();
+
+app.use(cors({ credentials: true, origin: 'http://localhost:3001' }));
 
 app.use(bodyParser.json());
 
@@ -19,8 +23,10 @@ const { port } = config;
 export default () =>
   Promise.resolve()
     .then(() => {
-      app.use('/api', api());
-      app.use(ui({ port }));
+      if (process.env.API) {
+        app.use('/api', api());
+      }
+      app.use(ui());
 
       app.use((expressError, req, res, next) => { // eslint-disable-line no-unused-vars
         console.error(expressError); // eslint-disable-line no-console

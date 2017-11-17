@@ -1,8 +1,8 @@
 import express from 'express';
 
-import brickpi3 from 'brickpi3';
-
 export default () => {
+  const brickpi3 = require('brickpi3'); // eslint-disable-line global-require
+
   const router = express.Router();
 
   const speed = {

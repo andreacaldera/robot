@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node src/erver/index.js",
     "dev": "NODE_ENV=local nodemon src/server/index.js",
+    "api": "NODE_ENV=local API=true nodemon src/server/index.js",
     "lint": "eslint .",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register test/**",
     "test-watch": "NODE_ENV=test mocha --compilers js:babel-core/register test/** -w",
@@ -33,6 +34,7 @@
     "body-parser": "^1.18.2",
     "brickpi3": "^0.9.5",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "es6-promise": "^4.1.1",
     "express": "^4.15.4",
     "history": "^4.7.2",

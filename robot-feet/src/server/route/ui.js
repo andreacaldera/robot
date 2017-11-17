@@ -22,14 +22,13 @@ export default ({ port }) => {
           <meta http-equiv="content-type" content="text/html; charset=utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-          <link rel="stylesheet" type="text/css" href="http://localhost:${port}/dist/robotFeet.css" />
-          <link rel="stylesheet" href="https://unpkg.com/react-rangeslider/umd/rangeslider.min.css" />
+          <link rel="stylesheet" type="text/css" href="/dist/robotFeet.css" />
         <title>Robot Feet - Acal Software Limited</title>
         </head>
         <body>
           <div id="app">${content}</div>
           <script>window.__initialState__ = ${JSON.stringify(store.getState()).replace(/</g, '\\x3c')}</script>
-          <script src="http://localhost:${port}/dist/robotFeet.js"></script>
+          <script src="/dist/robotFeet.js"></script>
         </body>
       </html>
       `;

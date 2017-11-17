@@ -4,15 +4,17 @@ import superagent from 'superagent';
 import { RESET_MOTORS, SET_MOTORS_DATA, PLAY_SOUND } from './constants';
 import { getSpeed, getSteer } from './selectors';
 
-const callApi = (url, payload) => () =>
-  superagent.post(url)
+const baseApiUrl = 'http://192.168.1.109:3001/api';
+
+const callApi = (path, payload) => () =>
+  superagent.post(`${baseApiUrl}/${path}`)
     .set('Accept', 'application/json')
     .send(payload)
     .timeout({ response: 9000, deadline: 10000 })
     .then(({ body }) => body);
 
 const callPlaySoundApi = () =>
-  superagent.get('http://localhost:3011/api/play/abunai-shiatsu')
+  superagent.get(`${baseApiUrl}/play/abunai-shiatsu`)
     .set('Accept', 'application/json')
     .withCredentials()
     .timeout({ response: 9000, deadline: 10000 });
@@ -21,12 +23,12 @@ const callPlaySoundApi = () =>
 function* controlMove() {
   const steerValue = yield select(getSteer);
   const speedValue = yield select(getSpeed);
-  const motors = yield call(callApi('/api/control-move', { steerValue, speedValue }));
+  const motors = yield call(callApi('control-move', { steerValue, speedValue }));
   yield put({ type: SET_MOTORS_DATA, payload: motors });
 }
 
 function* resetMotors() {
-  const motors = yield call(callApi('/api/reset-motors', {}));
+  const motors = yield call(callApi('reset-motors', {}));
   yield put({ type: SET_MOTORS_DATA, payload: motors });
 }
 

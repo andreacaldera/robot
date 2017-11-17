@@ -1,3 +1,5 @@
 import { NAMESPACE } from '../constants';
 
-export const TODO = `${NAMESPACE}/feet/TODO`;
+export const RESET_MOTORS = `${NAMESPACE}/feet/RESET_MOTORS`;
+export const SET_MOTORS_DATA = `${NAMESPACE}/feet/SET_MOTORS_DATA`;
+export const PLAY_SOUND = `${NAMESPACE}/feet/PLAY_SOUND`;

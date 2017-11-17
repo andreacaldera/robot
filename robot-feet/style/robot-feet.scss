@@ -2,6 +2,11 @@ body {
   padding-top: 5rem;
 }
 
+.ControlButtons {
+  position: absolute;
+  bottom: 10px;
+}
+
 .SteerSlider {
   & .rangeslider {
     height: 10px;

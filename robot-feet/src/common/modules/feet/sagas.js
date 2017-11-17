@@ -4,17 +4,17 @@ import superagent from 'superagent';
 import { RESET_MOTORS, SET_MOTORS_DATA, PLAY_SOUND } from './constants';
 import { getSpeed, getSteer } from './selectors';
 
-const baseApiUrl = 'http://192.168.1.109:3001/api';
+const baseApiUrl = '';
 
 const callApi = (path, payload) => () =>
-  superagent.post(`${baseApiUrl}/${path}`)
+  superagent.post(`http://192.168.1.109:3001/api/${path}`)
     .set('Accept', 'application/json')
     .send(payload)
     .timeout({ response: 9000, deadline: 10000 })
     .then(({ body }) => body);
 
 const callPlaySoundApi = () =>
-  superagent.get(`${baseApiUrl}/play/abunai-shiatsu`)
+  superagent.get('http://192.168.1.109:3011/api/play/abunai-shiatsu')
     .set('Accept', 'application/json')
     .withCredentials()
     .timeout({ response: 9000, deadline: 10000 });

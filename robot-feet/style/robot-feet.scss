@@ -38,9 +38,18 @@ body {
       background-color: red
     }
 
+    & .rangeslider__handle {
+      background-color: blue;
+      width: 50px;
+      height: 50px;
+      left: -20px;
+      border-radius: 50%;
+      box-shadow: 0 1px 1px #333;
+    }
+
     & .rangeslider__labels {
       & .rangeslider__label-item {
-        transform: translate3d(0,-30%,0);
+        transform: translate3d(0,70%,0);
       }
     }
   }

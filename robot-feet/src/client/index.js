@@ -12,6 +12,17 @@ import configureStore from '../common/store/configure-store';
 import routes from '../common/routes';
 import historyMiddleware from './history-middleware';
 
+function touchstart(e) {
+  e.preventDefault();
+}
+
+function touchmove(e) {
+  e.preventDefault();
+}
+
+document.addEventListener('touchstart', touchstart);
+document.addEventListener('touchmove', touchmove);
+
 const store = configureStore(window.__initialState__, [createLogger, historyMiddleware]);
 
 const AppRouter = () => (

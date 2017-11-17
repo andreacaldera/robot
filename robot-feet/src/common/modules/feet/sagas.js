@@ -4,8 +4,6 @@ import superagent from 'superagent';
 import { RESET_MOTORS, SET_MOTORS_DATA, PLAY_SOUND } from './constants';
 import { getSpeed, getSteer } from './selectors';
 
-const baseApiUrl = '';
-
 const callApi = (path, payload) => () =>
   superagent.post(`http://192.168.1.109:3001/api/${path}`)
     .set('Accept', 'application/json')

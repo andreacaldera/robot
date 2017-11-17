@@ -24,12 +24,12 @@ export default () => {
       .catch(next)
   );
 
-  router.get('/speed/increase', (req, res, next) =>
-    Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
-      .then(([leftMotorStatus, rightMotorStatus]) => console.log(leftMotorStatus) || Promise.all([leftMotor.setPower(leftMotorStatus[1] + 5), rightMotor.setPower(rightMotorStatus[1] + 5)]))
-      .then(() => res.sendStatus(202))
-      .catch(next)
-  );
+  // router.get('/speed/increase', (req, res, next) =>
+  //   Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
+  //     .then(([leftMotorStatus, rightMotorStatus]) => console.log(leftMotorStatus) ||
+  //     .then(() => res.sendStatus(202))
+  //     .catch(next)
+  // );
 
   router.get('/speed/decrease', (req, res, next) =>
     Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
@@ -56,13 +56,16 @@ export default () => {
         }
 
         return {
-          leftMotor: speedValue,
-          rightMotor: speedValue,
+          leftMotorSpeed: speedValue,
+          rightMotorSpeed: speedValue,
         };
       })
-      .then(({ l, r }) => {
-        speed.leftMotor = l;
-        speed.rightMotor = r;
+      .then(({ leftMotorSpeed, rightMotorSpeed }) =>
+        Promise.all([leftMotor.setPower(leftMotorSpeed), rightMotor.setPower(rightMotorSpeed)])
+          .then(() => ({ leftMotorSpeed, rightMotorSpeed })))
+      .then(({ leftMotorSpeed, rightMotorSpeed }) => {
+        speed.leftMotor = leftMotorSpeed;
+        speed.rightMotor = rightMotorSpeed;
         res.send(speed);
       })
       .catch(next)

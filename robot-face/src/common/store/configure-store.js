@@ -1,6 +1,5 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
-import createLogger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 
 import reducer from '../modules';
@@ -15,7 +14,6 @@ const configureStore = (history, initialState) => {
       applyMiddleware(
         routerMiddleware(history),
         sagaMiddleware,
-        createLogger,
       ),
     )
   );

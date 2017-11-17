@@ -1,30 +1,28 @@
 import Express from 'express';
-import cookieParser from 'cookie-parser';
 import path from 'path';
 import _ from 'lodash';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import qs from 'qs';
+
+import cors from 'cors';
+
 import { createMemoryHistory, match, RouterContext } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import fs from 'fs';
-import https from 'https';
 
 import configureStore from '../common/store/configure-store';
 import routes from '../common/routes';
 import { NAMESPACE } from '../common/modules/constants';
 import api from './api';
 
-const privateKey = fs.readFileSync('sslcert/domain.key', 'utf8');
-const certificate = fs.readFileSync('sslcert/domain.crt', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
-
 const app = Express();
 
-const port = 3001;
+const port = 3011;
 
-app.use(cookieParser());
+app.use(cors({ credentials: true, origin: 'http://localhost:3001' }));
+
+// app.use(cors());
 
 const getActiveFeatureToggles = (req) => {
   const params = qs.parse(req.query);
@@ -46,7 +44,6 @@ function renderFullPage(content, store) {
       <body>
         <div id="app">${content}</div>
         <script>window.__initialState__ = ${JSON.stringify(store.getState()).replace(/</g, '\\x3c')}</script>
-        <script src="https://simplewebrtc.com/latest-v2.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
@@ -83,9 +80,6 @@ app.use((req, res) => {
     }
   });
 });
-
-const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(8443);
 
 app.listen(port, (error) => {
   if (error) {

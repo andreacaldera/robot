@@ -2,9 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import faceModule from '../modules/face';
-import { START_FACE } from '../modules/face/constants';
-
 const Face = ({ startFace, isConnected }) =>
   (<div>
     <h1>Hey you, pretty robot face!</h1>
@@ -23,16 +20,4 @@ Face.propTypes = {
   isConnected: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  webrtc: faceModule.getWebRtc(state),
-  isConnected: faceModule.isConnected(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  startFace(e) {
-    e.preventDefault();
-    dispatch({ type: START_FACE });
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Face);
+export default connect(null, null)(Face);

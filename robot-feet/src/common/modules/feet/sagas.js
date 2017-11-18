@@ -5,14 +5,14 @@ import { RESET_MOTORS, SET_MOTORS_DATA, PLAY_SOUND } from './constants';
 import { getSpeed, getSteer } from './selectors';
 
 const callApi = (path, payload) => () =>
-  superagent.post(`http://192.168.1.109:3001/api/${path}`)
+  superagent.post(`http://192.168.1.109:3001/api/${path}`) // TODO should come from config
     .set('Accept', 'application/json')
     .send(payload)
     .timeout({ response: 9000, deadline: 10000 })
     .then(({ body }) => body);
 
 const callPlaySoundApi = () =>
-  superagent.get('http://192.168.1.109:3011/api/play/abunai-shiatsu')
+  superagent.get('http://192.168.1.109:3011/api/play/abunai-shiatsu') // TODO should come from config
     .set('Accept', 'application/json')
     .withCredentials()
     .timeout({ response: 9000, deadline: 10000 });

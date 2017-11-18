@@ -1,9 +1,18 @@
 import express from 'express';
 
+import player from 'play-sound';
+
 export default () => {
   const brickpi3 = require('brickpi3'); // eslint-disable-line global-require
 
   const router = express.Router();
+
+  router.get('/play/abunai-shiatsu', (req, res, next) =>
+    player().play('./abunai-shiatsu.mp3', (err) => {
+      if (err) return next(err);
+      return res.sendStatus(202);
+    })
+  );
 
   const speed = {
     leftMotor: 0,
@@ -15,14 +24,10 @@ export default () => {
 
   const leftMotor = brickpi3.utils.getMotor(brickPi, brickPi.PORT_A);
   const rightMotor = brickpi3.utils.getMotor(brickPi, brickPi.PORT_B);
-  Promise.all([rightMotor.resetEncoder(), leftMotor.resetEncoder()])
-    .then(() => Promise.all([leftMotor.setPower(0), rightMotor.setPower(0)]))
 
-  router.get('/stop', (req, res, next) =>
-    Promise.all([rightMotor.setPower(0), leftMotor.setPower(0)])
-      .then(() => res.sendStatus(202))
-      .catch(next)
-  );
+  // TODO should ensure this completes before accepting requests
+  Promise.all([rightMotor.resetEncoder(), leftMotor.resetEncoder()])
+    .then(() => Promise.all([leftMotor.setPower(0), rightMotor.setPower(0)]));
 
   // router.get('/speed/increase', (req, res, next) =>
   //   Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
@@ -71,11 +76,10 @@ export default () => {
       .catch(next)
   );
 
-  router.post('/reset-motors', (req, res) => {
-    speed.leftMotor = 0;
-    speed.rightMotor = 0;
-    return res.send(speed);
-  });
+  router.post('/reset-motors', (req, res) =>
+    Promise.all([leftMotor.setPower(speed.leftMotor), rightMotor.setPower(speed.rightMotor)])
+      .then(() => res.send(speed))
+  );
 
   router.get('/*', (req, res, next) =>
     next(new Error('Not found'))

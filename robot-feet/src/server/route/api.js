@@ -17,16 +17,24 @@ export default () => {
     });
   });
 
-  const speed = {
-    leftMotor: 0,
-    rightMotor: 0,
-  };
-
   const brickPi = new brickpi3.BrickPi3();
   brickpi3.utils.resetAllWhenFinished(brickPi);
 
   const leftMotor = brickpi3.utils.getMotor(brickPi, brickPi.PORT_A);
   const rightMotor = brickpi3.utils.getMotor(brickPi, brickPi.PORT_B);
+
+  const getMotorsSpeed = () =>
+    Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
+      .then(([[, leftMotorSpeed], [, rightMotorSpeed]]) => {
+        winston.debug(`Current speed is ${leftMotorSpeed}, ${rightMotorSpeed}`);
+        return { leftMotorSpeed, rightMotorSpeed };
+      });
+
+  const setMotorsSpeed = ({ leftMotorSpeed, rightMotorSpeed }) => {
+    winston.debug(`Setting motor speed ${leftMotorSpeed}, ${rightMotorSpeed}`);
+    return Promise.all([leftMotor.setPower(leftMotorSpeed), rightMotor.setPower(rightMotorSpeed)])
+      .then(() => ({ leftMotorSpeed, rightMotorSpeed }));
+  };
 
   // TODO should ensure this completes before accepting requests
   Promise.all([rightMotor.resetEncoder(), leftMotor.resetEncoder()])
@@ -45,12 +53,12 @@ export default () => {
   //     .catch(next)
   // );
 
-  router.get('/speed/decrease', (req, res, next) =>
-    Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
-      .then(([[, leftMotorSpeed], [, rightMotorSpeed]]) => Promise.all([leftMotor.setPower(leftMotorSpeed - 5), rightMotor.setPower(rightMotorSpeed - 5)]))
-      .then(() => res.sendStatus(202))
-      .catch(next)
-  );
+  // router.get('/speed/decrease', (req, res, next) =>
+  //   Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
+  //     .then(([[, leftMotorSpeed], [, rightMotorSpeed]]) => Promise.all([leftMotor.setPower(leftMotorSpeed - 5), rightMotor.setPower(rightMotorSpeed - 5)]))
+  //     .then(() => res.sendStatus(202))
+  //     .catch(next)
+  // );
 
   router.post('/control-move', (req, res, next) =>
     Promise.resolve()
@@ -75,23 +83,17 @@ export default () => {
           rightMotorSpeed: speedValue,
         };
       })
-      .then(({ leftMotorSpeed, rightMotorSpeed }) =>
-        Promise.all([leftMotor.setPower(leftMotorSpeed), rightMotor.setPower(rightMotorSpeed)])
-          .then(() => ({ leftMotorSpeed, rightMotorSpeed })))
-      .then(({ leftMotorSpeed, rightMotorSpeed }) => {
-        speed.leftMotor = leftMotorSpeed;
-        speed.rightMotor = rightMotorSpeed;
-        res.send(speed);
-      })
+      .then(({ leftMotorSpeed, rightMotorSpeed }) => setMotorsSpeed({ leftMotorSpeed, rightMotorSpeed }))
+      .then(() => getMotorsSpeed())
+      .then(({ leftMotorSpeed, rightMotorSpeed }) => res.send({ leftMotorSpeed, rightMotorSpeed }))
       .catch(next)
   );
 
   router.post('/reset-motors', (req, res) => {
     winston.debug('Resetting motors');
-    speed.leftMotor = 0;
-    speed.righttMotor = 0;
-    return Promise.all([leftMotor.setPower(speed.leftMotor), rightMotor.setPower(speed.rightMotor)])
-      .then(() => res.send(speed));
+    return setMotorsSpeed({ leftMotorSpeed: 0, rightMotorSpeed: 0 })
+      .then(() => getMotorsSpeed())
+      .then(({ leftMotorSpeed, rightMotorSpeed }) => res.send({ leftMotorSpeed, rightMotorSpeed }));
   });
 
   router.get('/*', (req, res, next) =>

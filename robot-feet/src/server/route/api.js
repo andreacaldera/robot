@@ -1,18 +1,21 @@
 import express from 'express';
-
+import winston from 'winston';
 import player from 'play-sound';
 
 export default () => {
   const brickpi3 = require('brickpi3'); // eslint-disable-line global-require
 
+  winston.info('Starting API');
+
   const router = express.Router();
 
-  router.get('/play/abunai-shiatsu', (req, res, next) =>
-    player().play('./abunai-shiatsu.mp3', (err) => {
+  router.get('/play/abunai-shiatsu', (req, res, next) => {
+    winston.debug('play sound');
+    return player().play('./abunai-shiatsu.mp3', (err) => {
       if (err) return next(err);
       return res.sendStatus(202);
-    })
-  );
+    });
+  });
 
   const speed = {
     leftMotor: 0,
@@ -27,7 +30,13 @@ export default () => {
 
   // TODO should ensure this completes before accepting requests
   Promise.all([rightMotor.resetEncoder(), leftMotor.resetEncoder()])
-    .then(() => Promise.all([leftMotor.setPower(0), rightMotor.setPower(0)]));
+    .then(() => Promise.all([leftMotor.setPower(0), rightMotor.setPower(0)]))
+    .then(() => {
+      winston.info('Robot initilised successfully');
+    })
+    .catch((err) => {
+      winston.err(err, 'Unable to initialise robot');
+    });
 
   // router.get('/speed/increase', (req, res, next) =>
   //   Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
@@ -47,6 +56,7 @@ export default () => {
     Promise.resolve()
       .then(() => {
         const { speedValue, steerValue } = req.body;
+        winston.debug(`Control move request ${speedValue}, ${steerValue}`);
 
         if (steerValue > 0) {
           return {

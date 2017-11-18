@@ -2,7 +2,7 @@ import Express from 'express';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import bodyParser from 'body-parser';
-
+import winston from 'winston';
 import cors from 'cors';
 
 import api from './route/api';
@@ -20,6 +20,8 @@ app.use('/dist', Express.static(path.join(__dirname, '../../dist')));
 
 const { port } = config;
 
+winston.level = 'debug';
+
 export default () =>
   Promise.resolve()
     .then(() => {
@@ -28,20 +30,20 @@ export default () =>
       }
       app.use(ui());
 
-      app.use((expressError, req, res, next) => { // eslint-disable-line no-unused-vars
-        console.error(expressError); // eslint-disable-line no-console
+      app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+        winston.error(err);
         res.status(500).send('Sorry, an error occured');
       });
 
       app.listen(port, (error) => {
         if (error) {
-          console.error(error); // eslint-disable-line no-console
+          winston.error(error);
         } else {
-          console.info(`Robot feet running at http://localhost:${port}/`); // eslint-disable-line no-console
+          winston.info(`Robot feet running at http://localhost:${port}/`);
         }
       });
     })
     .catch((err) => {
-      console.error(err); // eslint-disable-line no-console
+      winston.error(err, 'Unable to start server');
       process.exit(1);
     });

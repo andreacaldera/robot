@@ -59,7 +59,8 @@
     "serialport": "^6.0.4",
     "superagent": "^3.6.0",
     "url-pattern": "^1.0.3",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "winston": "^2.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

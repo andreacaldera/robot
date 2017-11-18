@@ -7,7 +7,7 @@ import Speed from './Speed';
 
 import { RESET_MOTORS, PLAY_SOUND } from '../modules/feet/constants';
 
-import { getMotorsData } from '../modules/feet';
+import { getMotorsData, getError } from '../modules/feet';
 
 class Control extends Component {
   static propTypes = {
@@ -17,12 +17,18 @@ class Control extends Component {
     }),
     resetMotors: PropTypes.func.isRequired,
     abunaiShiatsu: PropTypes.func.isRequired,
+    error: PropTypes.string,
+  }
+
+  static defaultProps = {
+    error: null,
   }
 
   render() {
     return (
       <div className="container-fluid">
         <h2>Control</h2>
+        {this.props.error ? (<div className="error">{this.props.error}</div>) : null}
         <div className="row">
           <div className="col">
             <Steer />
@@ -62,6 +68,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   motorsData: getMotorsData(state),
+  error: getError(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Control);

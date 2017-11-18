@@ -68,13 +68,13 @@ export default () => {
 
         if (steerValue > 0) {
           return {
-            leftMotor: speedValue + Math.abs(steerValue / 2),
-            rightMotor: speedValue,
+            leftMotorSpeed: speedValue + Math.abs(steerValue / 2),
+            rightMotorSpeed: speedValue,
           };
         } else if (steerValue < 0) {
           return {
-            leftMotor: speedValue,
-            rightMotor: speedValue + Math.abs(steerValue / 2),
+            leftMotorSpeed: speedValue,
+            rightMotorSpeed: speedValue + Math.abs(steerValue / 2),
           };
         }
 

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_MOTORS_DATA } from './constants';
+import { SET_MOTORS_DATA, SET_ERROR } from './constants';
 
 const speed = (state = 0, action) => {
   switch (action.type) {
@@ -23,8 +23,16 @@ const motorsData = (state = { leftMotor: 0, rightMotor: 0 }, action) => {
   }
 };
 
+const error = (state = null, action) => {
+  switch (action.type) {
+    case SET_ERROR: return action.payload;
+    default: return state;
+  }
+};
+
 module.exports = combineReducers({
   speed,
   steer,
   motorsData,
+  error,
 });

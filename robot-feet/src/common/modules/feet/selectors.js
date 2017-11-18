@@ -17,9 +17,14 @@ const getMotorsData = createSelector(
   ({ motorsData }) => motorsData
 );
 
+const getError = createSelector(
+  getFeetSelector,
+  ({ error }) => error
+);
 
 module.exports = {
   getSpeed,
   getSteer,
   getMotorsData,
+  getError,
 };

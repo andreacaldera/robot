@@ -12,7 +12,7 @@ const callApi = (path, payload) => () =>
     .then(({ body }) => body);
 
 const callPlaySoundApi = () =>
-  superagent.get('http://192.168.1.109:3011/api/play/abunai-shiatsu') // TODO should come from config
+  superagent.get('http://192.168.1.109:3001/api/play/abunai-shiatsu') // TODO should come from config
     .set('Accept', 'application/json')
     .withCredentials()
     .timeout({ response: 9000, deadline: 10000 });

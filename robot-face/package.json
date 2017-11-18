@@ -10,8 +10,8 @@
     "build": "NODE_ENV=production webpack -p",
     "watch": "NODE_ENV=production webpack -p --watch",
     "npm-check": "npm-check -u",
-    "precommit": "yarn lint",
-    "prepush": "yarn test"
+    "precommit": "npm run lint",
+    "prepush": "npm run test"
   },
   "repository": {
     "type": "git",

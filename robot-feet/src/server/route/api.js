@@ -86,10 +86,13 @@ export default () => {
       .catch(next)
   );
 
-  router.post('/reset-motors', (req, res) =>
-    Promise.all([leftMotor.setPower(speed.leftMotor), rightMotor.setPower(speed.rightMotor)])
-      .then(() => res.send(speed))
-  );
+  router.post('/reset-motors', (req, res) => {
+    winston.debug('Resetting motors');
+    speed.leftMotor = 0;
+    speed.righttMotor = 0;
+    return Promise.all([leftMotor.setPower(speed.leftMotor), rightMotor.setPower(speed.rightMotor)])
+      .then(() => res.send(speed));
+  });
 
   router.get('/*', (req, res, next) =>
     next(new Error('Not found'))

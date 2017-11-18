@@ -23,7 +23,7 @@ const { port } = config;
 export default () =>
   Promise.resolve()
     .then(() => {
-      if (process.env.API) {
+      if (config.api) {
         app.use('/api', api());
       }
       app.use(ui());

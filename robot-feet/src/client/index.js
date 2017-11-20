@@ -12,18 +12,14 @@ import configureStore from '../common/store/configure-store';
 import routes from '../common/routes';
 import historyMiddleware from './history-middleware';
 
-function touchstart(e) {
-  e.preventDefault();
-}
-
-function touchmove(e) {
-  if (e.target.className !== 'rangeslider__handle') {
+function preventScroll(e) {
+  if (e.target.className === 'rangeslider__handle') {
     e.preventDefault();
   }
 }
 
-document.addEventListener('touchstart', touchstart);
-document.addEventListener('touchmove', touchmove);
+// document.addEventListener('touchstart', touchstart);
+document.addEventListener('touchmove', preventScroll);
 
 const store = configureStore(window.__initialState__, [createLogger, historyMiddleware]);
 

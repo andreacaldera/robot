@@ -28,7 +28,7 @@ class Control extends Component {
     return (
       <div className="container-fluid">
         <h2>Control</h2>
-        {this.props.error ? (<div className="error">{this.props.error}</div>) : null}
+        {this.props.error ? (<div className="ControlError">{this.props.error}</div>) : null}
         <div className="row">
           <div className="col">
             <Steer />

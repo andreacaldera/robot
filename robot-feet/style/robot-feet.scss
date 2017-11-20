@@ -2,6 +2,16 @@ body {
   padding-top: 5rem;
 }
 
+.ControlError {
+  position: absolute;
+  color: red;
+  background-color: lightgrey;
+  left: 0px;
+  top: -25px;
+  z-index: 1;
+  width: 100%;
+}
+
 .ControlButtons {
   position: absolute;
   bottom: 10px;

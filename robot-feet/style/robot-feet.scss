@@ -5,6 +5,17 @@ body {
 .ControlButtons {
   position: absolute;
   bottom: 10px;
+  height: 70%;
+}
+
+.ControlButtons-audioButtons {
+  position: absolute;
+  bottom: 10px;
+}
+
+.ControlButtons-button {
+  width: 150px;
+  display: block;
 }
 
 .SteerSlider {

@@ -17,7 +17,9 @@ function touchstart(e) {
 }
 
 function touchmove(e) {
-  e.preventDefault();
+  if (e.target.className !== 'rangeslider__handle') {
+    e.preventDefault();
+  }
 }
 
 document.addEventListener('touchstart', touchstart);

@@ -1,4 +1,7 @@
 {
   "port": 3001,
-  "api": true
+  "api": {
+    "sound": true,
+    "brickpi": false
+  }
 }

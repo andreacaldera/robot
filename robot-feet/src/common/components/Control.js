@@ -16,7 +16,7 @@ class Control extends Component {
       rightMotor: PropTypes.number.isRequired,
     }),
     resetMotors: PropTypes.func.isRequired,
-    abunaiShiatsu: PropTypes.func.isRequired,
+    playSound: PropTypes.func.isRequired,
     error: PropTypes.string,
   }
 
@@ -42,8 +42,12 @@ class Control extends Component {
         <div className="ControlButtons">
           <div>Left motor: {this.props.motorsData.leftMotor}</div>
           <div>Right motor: {this.props.motorsData.rightMotor}</div>
-          <button className="btn btn-primary" type="submit" onClick={this.props.resetMotors}>Reset</button>
-          <button className="btn btn-primary" type="submit" onClick={this.props.abunaiShiatsu}>Abunai shiatsu</button>
+          <button className="ControlButtons-button btn btn-primary" type="submit" onClick={this.props.resetMotors}>Reset</button>
+          <div className="ControlButtons-audioButtons">
+            <button className="ControlButtons-button btn btn-primary mb-1" type="submit" onClick={(e) => this.props.playSound(e, 'intro')}>Intro</button>
+            <button className="ControlButtons-button btn btn-primary mb-1" type="submit" onClick={(e) => this.props.playSound(e, 'food')}>Food</button>
+            <button className="ControlButtons-button btn btn-primary mb-1" type="submit" onClick={(e) => this.props.playSound(e, 'love')}>Love</button>
+          </div>
         </div>
       </div>
     );
@@ -57,11 +61,11 @@ const mapDispatchToProps = (dispatch) => ({
       type: RESET_MOTORS,
     });
   },
-  abunaiShiatsu: (e) => {
+  playSound: (e, sound) => {
     e.preventDefault();
     dispatch({
       type: PLAY_SOUND,
-      payload: 'abunai-shiatsu',
+      payload: sound,
     });
   },
 });

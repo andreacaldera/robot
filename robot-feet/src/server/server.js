@@ -11,7 +11,7 @@ import config from './config';
 
 const app = Express();
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3001' }));
+app.use(cors({ credentials: true, origin: ['http://192.168.109.:3001', 'http://192.168.100.:3001', 'http://192.168.1.67.:3001'] }));
 
 app.use(bodyParser.json());
 
@@ -25,10 +25,8 @@ winston.level = 'debug';
 export default () =>
   Promise.resolve()
     .then(() => {
-      if (config.api) {
-        app.use('/api', api());
-      }
-      app.use(ui());
+      app.use('/api', api({ config }));
+      app.use(ui({ config }));
 
       app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
         winston.error(err);

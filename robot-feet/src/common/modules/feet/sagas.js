@@ -3,22 +3,23 @@ import superagent from 'superagent';
 
 import { RESET_MOTORS, SET_MOTORS_DATA, PLAY_SOUND, SET_ERROR } from './constants';
 import { getSpeed, getSteer } from './selectors';
+import { getBaseApiUrl } from '../meta/selectors';
 
-const callApi = (path, payload) => () =>
-  superagent.post(`http://192.168.1.109:3001/api/${path}`) // TODO should come from config
+const callApi = (url, payload) => () =>
+  superagent.post(url)
     .set('Accept', 'application/json')
     .send(payload)
     .timeout({ response: 9000, deadline: 10000 })
     .then(({ body }) => body);
 
-const callPlaySoundApi = () =>
-  superagent.get('http://192.168.1.109:3001/api/play/abunai-shiatsu') // TODO should come from config
+const callPlaySoundApi = (url) => ({ payload }) =>
+  superagent.get(`${url}/${payload}`)
     .set('Accept', 'application/json')
     .withCredentials()
     .timeout({ response: 9000, deadline: 10000 });
 
-function* setError(err) {
-  yield put({ type: SET_ERROR, payload: err });
+function* setError(err = {}) {
+  yield put({ type: SET_ERROR, payload: err.message || null });
 }
 
 function* controlMove() {
@@ -26,7 +27,8 @@ function* controlMove() {
   try {
     const steerValue = yield select(getSteer);
     const speedValue = yield select(getSpeed);
-    const motors = yield call(callApi('control-move', { steerValue, speedValue }));
+    const baseApiUrl = yield select(getBaseApiUrl);
+    const motors = yield call(callApi(`${baseApiUrl}/control-move`, { steerValue, speedValue }));
     yield put({ type: SET_MOTORS_DATA, payload: motors });
   } catch (err) {
     yield setError(err);
@@ -36,7 +38,8 @@ function* controlMove() {
 function* resetMotors() {
   yield setError();
   try {
-    const motors = yield call(callApi('reset-motors', {}));
+    const baseApiUrl = yield select(getBaseApiUrl);
+    const motors = yield call(callApi(`${baseApiUrl}/control-move`, {}));
     yield put({ type: SET_MOTORS_DATA, payload: motors });
   } catch (err) {
     yield setError(err);
@@ -56,8 +59,8 @@ function* watchResetMotors() {
 }
 
 function* watchPlaySound() {
-  yield takeEvery(PLAY_SOUND, callPlaySoundApi);
+  const baseApiUrl = yield select(getBaseApiUrl);
+  yield takeEvery(PLAY_SOUND, callPlaySoundApi(`${baseApiUrl}/play`));
 }
-
 
 export default [watchPlaySound, watchResetMotors, watchSpeed, watchSteer];

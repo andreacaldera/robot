@@ -7,6 +7,12 @@ const getFeatureToggles = createSelector(
   ({ featureToggles }) => featureToggles
 );
 
+const getBaseApiUrl = createSelector(
+  getMetaSelector,
+  ({ baseApiUrl }) => baseApiUrl
+);
+
 module.exports = {
   getFeatureToggles,
+  getBaseApiUrl,
 };

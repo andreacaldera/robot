@@ -11,7 +11,7 @@ import configureStore from '../../common/store/configure-store';
 import routes from '../../common/routes';
 import { NAMESPACE } from '../../common/modules/constants';
 
-export default () => {
+export default ({ config }) => {
   const router = express.Router();
 
   function renderFullPage(content, store) {
@@ -50,6 +50,7 @@ export default () => {
           [NAMESPACE]: {
             meta: {
               featureToggles: activeFeatureToggles,
+              baseApiUrl: config.api.baseUrl,
             },
             feet: {},
           },

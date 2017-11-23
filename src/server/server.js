@@ -4,6 +4,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import winston from 'winston';
 import cors from 'cors';
+import ip from 'ip';
 
 import api from './route/api';
 import ui from './route/ui';
@@ -37,7 +38,7 @@ export default () =>
         if (error) {
           winston.error(error);
         } else {
-          winston.info(`Robot feet running at http://localhost:${port}/`);
+          winston.info(`Server running at http://${ip.address()}:${port}/`);
         }
       });
     })

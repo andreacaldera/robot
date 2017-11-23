@@ -1,7 +1,7 @@
 {
   "name": "robot-feet",
   "version": "0.0.0",
-  "description": "robot-feet",
+  "description": "Abunai Shiatsu",
   "scripts": {
     "start": "NODE_ENV=production node src/server/index.js",
     "dev": "NODE_ENV=local nodemon src/server/index.js",
@@ -17,11 +17,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andreacaldera/TODO"
+    "url": "git+https://github.com/andreacaldera/robot"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/andreacaldera/TODO"
+    "url": "https://github.com/andreacaldera/robot"
   },
   "homepage": "TODO",
   "dependencies": {
@@ -38,6 +38,7 @@
     "es6-promise": "^4.1.1",
     "express": "^4.15.4",
     "history": "^4.7.2",
+    "ip": "^1.1.5",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "play-sound": "^1.1.1",

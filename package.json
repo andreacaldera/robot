@@ -5,7 +5,6 @@
   "scripts": {
     "start": "NODE_ENV=production node src/server/index.js",
     "dev": "NODE_ENV=local nodemon src/server/index.js",
-    "api": "NODE_ENV=local nodemon src/server/index.js",
     "lint": "eslint .",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register test/**",
     "test-watch": "NODE_ENV=test mocha --compilers js:babel-core/register test/** -w",
@@ -74,7 +73,8 @@
     "babel-runtime": "^6.26.0",
     "chai": "^4.1.2",
     "css-loader": "^0.28.0",
-    "enzyme": "^3.0.0",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-airbnb-base": "^11.1.0",

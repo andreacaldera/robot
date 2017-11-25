@@ -12,8 +12,8 @@ export default ({ config }) => {
   }
 
   const brickPiService = config.api.fakeBrickpi ?
-    require('../service/fake-brickpi') : // eslint-disable-line global-require
-    require('../service/brickpi');  // eslint-disable-line global-require
+    require('../service/fake-brickpi')() : // eslint-disable-line global-require
+    require('../service/brickpi')();  // eslint-disable-line global-require
 
   router.post('/control-move', (req, res, next) =>
     Promise.resolve()

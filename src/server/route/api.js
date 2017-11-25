@@ -18,7 +18,7 @@ export default ({ config }) => {
   router.post('/control-move', (req, res, next) =>
     Promise.resolve()
       .then(() => {
-        const { steerValue } = req.body;
+        const steerValue = req.body.steerValue * -1;
         const speedValue = req.body.speedValue * -1;
         winston.debug(`Control move request ${speedValue}, ${steerValue}`);
 

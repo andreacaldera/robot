@@ -16,7 +16,7 @@ const steer = (state = 0, action) => {
   }
 };
 
-const motorsData = (state = { leftMotor: 0, rightMotor: 0 }, action) => {
+const motorsData = (state = { leftMotorSpeed: 0, rightMotorSpeed: 0 }, action) => {
   switch (action.type) {
     case SET_MOTORS_DATA: return action.payload;
     default: return state;

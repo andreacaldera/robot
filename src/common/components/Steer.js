@@ -15,11 +15,21 @@ const labels = {
 
 class Steer extends Component {
   static propTypes = {
+    motorsData: PropTypes.shape({
+      leftMotorSpeed: PropTypes.number.isRequired,
+      rightMotorSpeed: PropTypes.number.isRequired,
+    }).isRequired,
     steer: PropTypes.func.isRequired,
   };
 
   state = {
     steerValue: 0,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.motorsData.leftMotorSpeed === 0 && nextProps.motorsData.rightMotorSpeed === 0) {
+      this.setState({ steerValue: 0 });
+    }
   }
 
   onSteerChange = (steerValue) => {

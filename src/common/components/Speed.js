@@ -16,10 +16,20 @@ const labels = {
 class Speed extends Component {
   static propTypes = {
     setSpeed: PropTypes.func.isRequired,
+    motorsData: PropTypes.shape({
+      leftMotorSpeed: PropTypes.number.isRequired,
+      rightMotorSpeed: PropTypes.number.isRequired,
+    }).isRequired,
   };
 
   state = {
     speedValue: 0,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.motorsData.leftMotorSpeed === 0 && nextProps.motorsData.rightMotorSpeed === 0) {
+      this.setState({ speedValue: 0 });
+    }
   }
 
   onSpeedChange = (speedValue) => {

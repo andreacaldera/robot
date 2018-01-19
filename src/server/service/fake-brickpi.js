@@ -8,14 +8,14 @@ export default () => {
 
   const getMotorsSpeed = () => {
     winston.debug(`Current speed is ${brickpi.leftMotorSpeed}, ${brickpi.rightMotorSpeed}`);
-    return brickpi;
+    return Promise.resolve(brickpi);
   };
 
   const setMotorsSpeed = ({ leftMotorSpeed, rightMotorSpeed }) => {
     winston.debug(`Setting motor speed ${leftMotorSpeed}, ${rightMotorSpeed}`);
     brickpi.leftMotorSpeed = leftMotorSpeed;
     brickpi.rightMotorSpeed = rightMotorSpeed;
-    return brickpi;
+    return Promise.resolve(brickpi);
   };
 
   return Object.freeze({

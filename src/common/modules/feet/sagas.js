@@ -2,7 +2,7 @@ import { throttle, select, call, takeLatest, put, takeEvery } from 'redux-saga/e
 import superagent from 'superagent';
 
 import { RESET_MOTORS, SET_MOTORS_DATA, PLAY_SOUND, SET_ERROR } from './constants';
-import { getSpeed, getSteer } from './selectors';
+import { getSpeed, getSteer, getError } from './selectors';
 import { getBaseApiUrl } from '../meta/selectors';
 
 const callApi = (url, payload) => () =>
@@ -18,12 +18,19 @@ const callPlaySoundApi = (url) => ({ payload }) =>
     .withCredentials()
     .timeout({ response: 9000, deadline: 10000 });
 
-function* setError(err = {}) {
+function* setError(err) {
   yield put({ type: SET_ERROR, payload: err.message || null });
 }
 
+function* resetError() {
+  const error = yield select(getError);
+  if (error) {
+    yield setError({});
+  }
+}
+
 function* controlMove() {
-  yield setError();
+  yield resetError();
   try {
     const steerValue = yield select(getSteer);
     const speedValue = yield select(getSpeed);
@@ -36,10 +43,10 @@ function* controlMove() {
 }
 
 function* resetMotors() {
-  yield setError();
+  yield resetError();
   try {
     const baseApiUrl = yield select(getBaseApiUrl);
-    const motors = yield call(callApi(`${baseApiUrl}/control-move`, {}));
+    const motors = yield call(callApi(`${baseApiUrl}/reset-motors`));
     yield put({ type: SET_MOTORS_DATA, payload: motors });
   } catch (err) {
     yield setError(err);

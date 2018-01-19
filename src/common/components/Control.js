@@ -12,8 +12,8 @@ import { getMotorsData, getError } from '../modules/feet';
 class Control extends Component {
   static propTypes = {
     motorsData: PropTypes.shape({
-      leftMotor: PropTypes.number.isRequired,
-      rightMotor: PropTypes.number.isRequired,
+      leftMotorSpeed: PropTypes.number.isRequired,
+      rightMotorSpeed: PropTypes.number.isRequired,
     }),
     resetMotors: PropTypes.func.isRequired,
     playSound: PropTypes.func.isRequired,
@@ -25,23 +25,24 @@ class Control extends Component {
   }
 
   render() {
+    const { motorsData } = this.props;
     return (
       <div className="container-fluid">
         <h2>Control</h2>
         {this.props.error ? (<div className="ControlError">{this.props.error}</div>) : null}
         <div className="row">
           <div className="col">
-            <Steer />
+            <Steer motorsData={motorsData} />
           </div>
         </div>
         <div className="row">
           <div className="col">
-            <Speed />
+            <Speed motorsData={motorsData} />
           </div>
         </div>
         <div className="ControlButtons">
-          <div>Left motor: {this.props.motorsData.leftMotor}</div>
-          <div>Right motor: {this.props.motorsData.rightMotor}</div>
+          <div>Left motor: {this.props.motorsData.leftMotorSpeed}</div>
+          <div>Right motor: {this.props.motorsData.rightMotorSpeed}</div>
           <button className="ControlButtons-button btn btn-primary" type="submit" onClick={this.props.resetMotors}>Reset</button>
           <div className="ControlButtons-audioButtons">
             <button className="ControlButtons-button btn btn-primary mb-1" type="submit" onClick={(e) => this.props.playSound(e, 'intro')}>Intro</button>

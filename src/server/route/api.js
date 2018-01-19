@@ -18,25 +18,26 @@ export default ({ config }) => {
   router.post('/control-move', (req, res, next) =>
     Promise.resolve()
       .then(() => {
+        // TODO make sure speed motors is wired correctly and remove this
         const steerValue = req.body.steerValue * -1;
         const speedValue = req.body.speedValue * -1;
         winston.debug(`Control move request ${speedValue}, ${steerValue}`);
 
         if (steerValue > 0) {
           return {
-            leftMotorSpeed: speedValue + Math.abs(steerValue / 2),
-            rightMotorSpeed: speedValue,
+            leftMotorSpeed: (speedValue + Math.abs(steerValue / 2)) * -1,
+            rightMotorSpeed: speedValue * -1,
           };
         } else if (steerValue < 0) {
           return {
-            leftMotorSpeed: speedValue,
-            rightMotorSpeed: speedValue + Math.abs(steerValue / 2),
+            leftMotorSpeed: speedValue * -1,
+            rightMotorSpeed: (speedValue + Math.abs(steerValue / 2)) * -1,
           };
         }
 
         return {
-          leftMotorSpeed: speedValue,
-          rightMotorSpeed: speedValue,
+          leftMotorSpeed: speedValue * -1,
+          rightMotorSpeed: speedValue * -1,
         };
       })
       .then(({ leftMotorSpeed, rightMotorSpeed }) => brickPiService.setMotorsSpeed({ leftMotorSpeed, rightMotorSpeed }))

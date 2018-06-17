@@ -1,5 +1,6 @@
 import brickpi3 from 'brickpi3';
-import winston from 'winston';
+
+import logger from '../logger';
 
 export default () => {
   const brickPi = new brickpi3.BrickPi3();
@@ -12,12 +13,12 @@ export default () => {
   const getMotorsSpeed = () =>
     Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])
       .then(([[, leftMotorSpeed], [, rightMotorSpeed]]) => {
-        winston.debug(`Current speed is ${leftMotorSpeed}, ${rightMotorSpeed}`);
+        logger.debug(`Current speed is ${leftMotorSpeed}, ${rightMotorSpeed}`);
         return { leftMotorSpeed, rightMotorSpeed };
       });
 
   const setMotorsSpeed = ({ leftMotorSpeed, rightMotorSpeed }) => {
-    winston.debug(`Setting motor speed ${leftMotorSpeed}, ${rightMotorSpeed}`);
+    logger.debug(`Setting motor speed ${leftMotorSpeed}, ${rightMotorSpeed}`);
     return Promise.all([leftMotor.setPower(leftMotorSpeed), rightMotor.setPower(rightMotorSpeed)])
       .then(() => ({ leftMotorSpeed, rightMotorSpeed }));
   };
@@ -26,10 +27,10 @@ export default () => {
   Promise.all([rightMotor.resetEncoder(), leftMotor.resetEncoder()])
     .then(() => Promise.all([leftMotor.setPower(0), rightMotor.setPower(0)]))
     .then(() => {
-      winston.info('Robot initilised successfully');
+      logger.info('Robot initilised successfully');
     })
     .catch((err) => {
-      winston.err(err, 'Unable to initialise robot');
+      logger.err(err, 'Unable to initialise robot');
     });
 
   return Object.freeze({

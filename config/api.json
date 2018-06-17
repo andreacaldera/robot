@@ -2,7 +2,7 @@
   "port": 3001,
   "api": {
     "baseUrl": "http://192.168.1.109:3001/api",
-    "fakeBrickpi": true
+    "fakeBrickpi": false
   },
   "logLevel": "debug"
 }

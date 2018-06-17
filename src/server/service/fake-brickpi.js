@@ -1,4 +1,4 @@
-import winston from 'winston';
+import logger from '../logger';
 
 export default () => {
   const brickpi = {
@@ -6,13 +6,15 @@ export default () => {
     rightMotorSpeed: 0,
   };
 
+  logger.warn('Using fake API');
+
   const getMotorsSpeed = () => {
-    winston.debug(`Current speed is ${brickpi.leftMotorSpeed}, ${brickpi.rightMotorSpeed}`);
+    logger.debug(`Current speed is ${brickpi.leftMotorSpeed}, ${brickpi.rightMotorSpeed}`);
     return Promise.resolve(brickpi);
   };
 
   const setMotorsSpeed = ({ leftMotorSpeed, rightMotorSpeed }) => {
-    winston.debug(`Setting motor speed ${leftMotorSpeed}, ${rightMotorSpeed}`);
+    logger.debug(`Setting motor speed ${leftMotorSpeed}, ${rightMotorSpeed}`);
     brickpi.leftMotorSpeed = leftMotorSpeed;
     brickpi.rightMotorSpeed = rightMotorSpeed;
     return Promise.resolve(brickpi);

@@ -1,14 +1,15 @@
 import express from 'express';
-import winston from 'winston';
 import player from 'play-sound';
 
+import logger from '../logger';
+
 export default ({ config }) => {
-  winston.info('Starting API');
+  logger.info('Starting API');
 
   const router = express.Router();
 
   if (config.api.fakeBrickpi) {
-    winston.warn('Running fake brickpi implementation');
+    logger.warn('Running fake brickpi implementation');
   }
 
   const brickPiService = config.api.fakeBrickpi ?
@@ -21,7 +22,7 @@ export default ({ config }) => {
         // TODO make sure speed motors is wired correctly and remove this
         const steerValue = req.body.steerValue * -1;
         const speedValue = req.body.speedValue * -1;
-        winston.debug(`Control move request ${speedValue}, ${steerValue}`);
+        logger.debug(`Control move request ${speedValue}, ${steerValue}`);
 
         if (steerValue > 0) {
           return {
@@ -47,14 +48,14 @@ export default ({ config }) => {
   );
 
   router.post('/reset-motors', (req, res) => {
-    winston.debug('Resetting motors');
+    logger.debug('Resetting motors');
     return brickPiService.setMotorsSpeed({ leftMotorSpeed: 0, rightMotorSpeed: 0 })
       .then(() => brickPiService.getMotorsSpeed())
       .then(({ leftMotorSpeed, rightMotorSpeed }) => res.send({ leftMotorSpeed, rightMotorSpeed }));
   });
 
   router.get('/play/:sound', (req, res, next) => {
-    winston.debug(`Play sound ${req.params.sound}`);
+    logger.debug(`Play sound ${req.params.sound}`);
 
     return player().play(`./sounds/${req.params.sound}.mp3`, (err) => {
       if (err) return next(err);

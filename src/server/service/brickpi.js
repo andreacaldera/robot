@@ -5,14 +5,17 @@ import logger from '../logger';
 export default ({ config }) => {
   logger.info('Connecting to BrickPI');
 
-  logger.info(`Left motor ${config.api.leftMotor}, right motor ${config.api.rightMotor}`);
+  const leftMotorId = config.api.leftMotor;
+  const rightMotorId = config.api.rightMotor;
+
+  logger.info(`Left motor ${leftMotorId}, right motor ${rightMotorId}`);
 
   const brickPi = new brickpi3.BrickPi3();
 
   brickpi3.utils.resetAllWhenFinished(brickPi);
 
-  const leftMotor = brickpi3.utils.getMotor(brickPi, config.api.leftMotor);
-  const rightMotor = brickpi3.utils.getMotor(brickPi, config.api.rightMotor);
+  const leftMotor = brickpi3.utils.getMotor(brickPi, brickPi[leftMotorId]);
+  const rightMotor = brickpi3.utils.getMotor(brickPi, brickPi[rightMotorId]);
 
   const getMotorsSpeed = () =>
     Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])

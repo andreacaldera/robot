@@ -3,8 +3,8 @@
   "api": {
     "baseUrl": "http://192.168.1.109:3001/api",
     "fakeBrickpi": false,
-    "leftMotor": "2",
-    "rightMotor": "1"
+    "leftMotor": "PORT_B",
+    "rightMotor": "PORT_A"
   },
   "logLevel": "debug"
 }

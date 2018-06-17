@@ -12,7 +12,9 @@ import logger from './logger';
 
 const app = Express();
 
-app.use(cors());
+const c = cors();
+app.use(c);
+app.options('*', c);
 
 app.use(bodyParser.json());
 

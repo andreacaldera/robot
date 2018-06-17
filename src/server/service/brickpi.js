@@ -5,7 +5,7 @@ import logger from '../logger';
 export default ({ config }) => {
   logger.info('Connecting to BrickPI');
 
-  logger.info(`Left motor ${config.api.leftMotor}, right motor config.api.rightMotor`);
+  logger.info(`Left motor ${config.api.leftMotor}, right motor ${config.api.rightMotor}`);
 
   const brickPi = new brickpi3.BrickPi3();
 
@@ -34,7 +34,7 @@ export default ({ config }) => {
       logger.info('Robot initilised successfully');
     })
     .catch((err) => {
-      logger.err(err, 'Unable to initialise robot');
+      logger.error(err, 'Unable to initialise robot');
     });
 
   return Object.freeze({

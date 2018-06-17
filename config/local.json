@@ -1,7 +1,8 @@
 {
   "port": 3001,
   "api": {
-    "baseUrl": "http://localhost:3001/api",
+    "baseUrl": "http://192.168.1.75:3002/api",
     "fakeBrickpi": true
-  }
+  },
+  "logLevel": "debug"
 }

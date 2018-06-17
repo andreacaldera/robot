@@ -10,9 +10,12 @@ import _ from 'lodash';
 import configureStore from '../../common/store/configure-store';
 import routes from '../../common/routes';
 import { NAMESPACE } from '../../common/modules/constants';
+import logger from '../logger';
 
 export default ({ config }) => {
   const router = express.Router();
+
+  logger.info(`Using API ${config.api.baseUrl}`);
 
   function renderFullPage(content, store) {
     return `

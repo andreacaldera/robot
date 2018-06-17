@@ -2,17 +2,17 @@ import Express from 'express';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import bodyParser from 'body-parser';
-import winston from 'winston';
 import cors from 'cors';
 import ip from 'ip';
 
 import api from './route/api';
 import ui from './route/ui';
 import config from './config';
+import logger from './logger';
 
 const app = Express();
 
-app.use(cors({ credentials: true, origin: ['http://192.168.109.:3001', 'http://192.168.100.:3001', 'http://192.168.1.67.:3001'] }));
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -20,8 +20,7 @@ app.use(cookieParser());
 app.use('/dist', Express.static(path.join(__dirname, '../../dist')));
 
 const { port } = config;
-
-winston.level = 'debug';
+logger.debug('Using port', port);
 
 export default () =>
   Promise.resolve()
@@ -30,19 +29,19 @@ export default () =>
       app.use(ui({ config }));
 
       app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-        winston.error(err);
+        logger.error(err);
         res.status(500).send('Sorry, an error occured');
       });
 
       app.listen(port, (error) => {
         if (error) {
-          winston.error(error);
+          logger.error(error);
         } else {
-          winston.info(`Server running at http://${ip.address()}:${port}/`);
+          logger.info(`Server running at http://${ip.address()}:${port}/`);
         }
       });
     })
     .catch((err) => {
-      winston.error(err, 'Unable to start server');
+      logger.error(err, 'Unable to start server');
       process.exit(1);
     });

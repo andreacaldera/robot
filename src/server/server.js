@@ -27,7 +27,9 @@ logger.debug('Using port', port);
 export default () =>
   Promise.resolve()
     .then(() => {
-      app.use('/api', api({ config }));
+      if (!config.api.disableApi) {
+        app.use('/api', api({ config }));
+      }
       app.use(ui({ config }));
 
       app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

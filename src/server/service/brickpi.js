@@ -3,6 +3,8 @@ import brickpi3 from 'brickpi3';
 import logger from '../logger';
 
 export default () => {
+  logger.info('Connecting to BrickPI');
+
   const brickPi = new brickpi3.BrickPi3();
 
   brickpi3.utils.resetAllWhenFinished(brickPi);

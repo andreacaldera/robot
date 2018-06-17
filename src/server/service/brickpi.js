@@ -2,15 +2,17 @@ import brickpi3 from 'brickpi3';
 
 import logger from '../logger';
 
-export default () => {
+export default ({ config }) => {
   logger.info('Connecting to BrickPI');
+
+  logger.info(`Left motor ${config.api.leftMotor}, right motor config.api.rightMotor`);
 
   const brickPi = new brickpi3.BrickPi3();
 
   brickpi3.utils.resetAllWhenFinished(brickPi);
 
-  const leftMotor = brickpi3.utils.getMotor(brickPi, brickPi.PORT_A);
-  const rightMotor = brickpi3.utils.getMotor(brickPi, brickPi.PORT_B);
+  const leftMotor = brickpi3.utils.getMotor(brickPi, config.api.leftMotor);
+  const rightMotor = brickpi3.utils.getMotor(brickPi, config.api.rightMotor);
 
   const getMotorsSpeed = () =>
     Promise.all([rightMotor.getStatus(), leftMotor.getStatus()])

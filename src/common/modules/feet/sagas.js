@@ -1,7 +1,17 @@
 import { throttle, select, call, takeLatest, put, takeEvery } from 'redux-saga/effects';
 import superagent from 'superagent';
 
-import { RESET_MOTORS, SET_MOTORS_DATA, PLAY_SOUND, SET_ERROR } from './constants';
+import { RESET_MOTORS,
+  SET_MOTORS_DATA,
+  PLAY_SOUND,
+  SET_ERROR,
+  SPEED_UP,
+  SLOW_DOWN,
+  SET_SPEED,
+  SET_STEER,
+  SLIDE_LEFT,
+  SLIDE_RIGHT,
+} from './constants';
 import { getSpeed, getSteer, getError } from './selectors';
 import { getBaseApiUrl } from '../meta/selectors';
 
@@ -54,11 +64,39 @@ function* resetMotors() {
 }
 
 function* watchSpeed() {
-  yield throttle(1000, 'SET_SPEED', controlMove);
+  yield throttle(1000, SET_SPEED, controlMove);
 }
 
 function* watchSteer() {
-  yield throttle(1000, 'SET_STEER', controlMove);
+  yield throttle(1000, SET_STEER, controlMove);
+}
+
+function* watchSpeedUp() {
+  yield throttle(500, SPEED_UP, function* speedUp() {
+    const speedValue = yield select(getSpeed);
+    yield put({ type: SET_SPEED, payload: speedValue + 10 });
+  });
+}
+
+function* watchSlowDown() {
+  yield throttle(500, SLOW_DOWN, function* slowDown() {
+    const speedValue = yield select(getSpeed);
+    yield put({ type: SET_SPEED, payload: speedValue - 10 });
+  });
+}
+
+function* watchSlideLeft() {
+  yield throttle(500, SLIDE_LEFT, function* slideLeft() {
+    const steerValue = yield select(getSteer);
+    yield put({ type: SET_STEER, payload: steerValue - 10 });
+  });
+}
+
+function* watchSlideRight() {
+  yield throttle(500, SLIDE_RIGHT, function* slideLeft() {
+    const steerValue = yield select(getSteer);
+    yield put({ type: SET_STEER, payload: steerValue + 10 });
+  });
 }
 
 function* watchResetMotors() {
@@ -70,4 +108,13 @@ function* watchPlaySound() {
   yield takeEvery(PLAY_SOUND, callPlaySoundApi(`${baseApiUrl}/play`));
 }
 
-export default [watchPlaySound, watchResetMotors, watchSpeed, watchSteer];
+export default [
+  watchPlaySound,
+  watchResetMotors,
+  watchSpeed,
+  watchSteer,
+  watchSpeedUp,
+  watchSlowDown,
+  watchSlideLeft,
+  watchSlideRight,
+];

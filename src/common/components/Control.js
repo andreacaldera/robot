@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Steer from './Steer';
 import Speed from './Speed';
 
-import { RESET_MOTORS, PLAY_SOUND } from '../modules/feet/constants';
+import { RESET_MOTORS, PLAY_SOUND, SLIDE_LEFT, SLIDE_RIGHT, SPEED_UP, SLOW_DOWN } from '../modules/feet/constants';
 
 import { getMotorsData, getError } from '../modules/feet';
 
@@ -16,12 +16,26 @@ class Control extends Component {
       rightMotorSpeed: PropTypes.number.isRequired,
     }),
     resetMotors: PropTypes.func.isRequired,
+    slideLeft: PropTypes.func.isRequired,
+    slideRight: PropTypes.func.isRequired,
+    speedUp: PropTypes.func.isRequired,
+    slowDown: PropTypes.func.isRequired,
     playSound: PropTypes.func.isRequired,
     error: PropTypes.string,
   }
 
   static defaultProps = {
     error: null,
+  }
+
+  onManualControlKeyPressed = (e) => {
+    switch (e.keyCode) {
+      case 37: return this.props.slideLeft();
+      case 39: return this.props.slideRight();
+      case 38: return this.props.speedUp();
+      case 40: return this.props.slowDown();
+      default:
+    }
   }
 
   render() {
@@ -41,6 +55,9 @@ class Control extends Component {
           </div>
         </div>
         <div className="ControlButtons">
+          <div>
+            <input readOnly className="ControlButtons-manualControl" type="text" id="manualControl" placeholder="Use arrow keys here to drive" onKeyDown={this.onManualControlKeyPressed} />
+          </div>
           <div>Left motor: {this.props.motorsData.leftMotorSpeed}</div>
           <div>Right motor: {this.props.motorsData.rightMotorSpeed}</div>
           <button className="ControlButtons-button btn btn-primary" type="submit" onClick={this.props.resetMotors}>Reset</button>
@@ -56,6 +73,26 @@ class Control extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  slideLeft: () => {
+    dispatch({
+      type: SLIDE_LEFT,
+    });
+  },
+  slideRight: () => {
+    dispatch({
+      type: SLIDE_RIGHT,
+    });
+  },
+  speedUp: () => {
+    dispatch({
+      type: SPEED_UP,
+    });
+  },
+  slowDown: () => {
+    dispatch({
+      type: SLOW_DOWN,
+    });
+  },
   resetMotors: (e) => {
     e.preventDefault();
     dispatch({

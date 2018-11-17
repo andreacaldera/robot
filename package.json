@@ -1,13 +1,13 @@
 {
-  "name": "robot-feet",
+  "name": "robot",
   "version": "0.0.0",
   "description": "Abunai Shiatsu",
   "scripts": {
     "start": "NODE_ENV=production node src/server/index.js",
     "dev": "NODE_ENV=local nodemon src/server/index.js",
     "lint": "eslint .",
-    "test": "NODE_ENV=test mocha --compilers js:babel-core/register test/**",
-    "test-watch": "NODE_ENV=test mocha --compilers js:babel-core/register test/** -w",
+    "test": "NODE_ENV=test jest --compilers js:babel-core/register **/__test__/**",
+    "test-watch": "NODE_ENV=test jest --compilers js:babel-core/register **/__test__/** -w",
     "build": "NODE_ENV=production webpack -p",
     "watch": "NODE_ENV=production webpack -p --watch",
     "npm-check": "npm-check -u",
@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/andreacaldera/robot"
   },
-  "homepage": "TODO",
+  "homepage": "https://github.com/andreacaldera/robot",
   "dependencies": {
     "accounting": "^0.4.1",
     "babel-core": "^6.26.0",
@@ -81,10 +81,10 @@
     "eslint-plugin-flowtype": "^2.35.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^6.9.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "husky": "^0.14.3",
+    "jest": "^23.6.0",
     "jsx-loader": "^0.13.2",
     "node-libs-browser": "^2.0.0",
     "node-sass": "^4.5.2",

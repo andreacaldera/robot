@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import Slider from 'react-rangeslider';
 
+import { SET_STEER } from '../modules/feet/constants';
+
 const min = -100;
 const max = 100;
 
@@ -57,7 +59,7 @@ class Steer extends Component {
 const mapDispatchToProps = (dispatch) => ({
   steer: (value) =>
     dispatch({
-      type: 'SET_STEER',
+      type: SET_STEER,
       payload: value,
     }),
 });

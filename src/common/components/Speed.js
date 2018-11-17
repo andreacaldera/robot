@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import Slider from 'react-rangeslider';
 
+import { SET_SPEED } from '../modules/feet/constants';
+
 const min = -100;
 const max = 100;
 
@@ -57,7 +59,7 @@ class Speed extends Component {
 const mapDispatchToProps = (dispatch) => ({
   setSpeed: (value) =>
     dispatch({
-      type: 'SET_SPEED',
+      type: SET_SPEED,
       payload: value,
     }),
 });

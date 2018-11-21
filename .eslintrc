@@ -11,7 +11,7 @@
   "globals": {
     "window": true,
     "document": true,
-    "fetch": true,
+    "fetch": true
   },
   "rules": {
     "id-length": 0,
@@ -27,7 +27,7 @@
       "objects": "always-multiline",
       "imports": "always-multiline",
       "exports": "always-multiline",
-      "functions": "ignore",
+      "functions": "ignore"
     }],
     "no-confusing-arrow": 0,
     "react/prefer-es6-class": 0,

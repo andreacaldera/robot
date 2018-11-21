@@ -6,6 +6,8 @@ import Slider from 'react-rangeslider';
 
 import { SET_SPEED } from '../modules/feet/constants';
 
+import { getSpeed } from '../modules/feet/selectors';
+
 const min = -100;
 const max = 100;
 
@@ -18,26 +20,12 @@ const labels = {
 class Speed extends Component {
   static propTypes = {
     setSpeed: PropTypes.func.isRequired,
-    motorsData: PropTypes.shape({
-      leftMotorSpeed: PropTypes.number.isRequired,
-      rightMotorSpeed: PropTypes.number.isRequired,
-    }).isRequired,
+    speed: PropTypes.number.isRequired,
   };
 
-  state = {
-    speedValue: 0,
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.motorsData.leftMotorSpeed === 0 && nextProps.motorsData.rightMotorSpeed === 0) {
-      this.setState({ speedValue: 0 });
-    }
-  }
-
   onSpeedChange = (speedValue) => {
-    this.setState({ speedValue });
     this.props.setSpeed(speedValue);
-  }
+  };
 
   render() {
     return (
@@ -46,7 +34,7 @@ class Speed extends Component {
           min={min}
           max={max}
           step={10}
-          value={this.state.speedValue}
+          value={this.props.speed}
           orientation="vertical"
           labels={labels}
           onChange={this.onSpeedChange}
@@ -56,6 +44,10 @@ class Speed extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  speed: getSpeed(state),
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setSpeed: (value) =>
     dispatch({
@@ -64,4 +56,7 @@ const mapDispatchToProps = (dispatch) => ({
     }),
 });
 
-export default connect(null, mapDispatchToProps)(Speed);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Speed);

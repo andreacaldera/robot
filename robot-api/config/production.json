@@ -1,0 +1,9 @@
+{
+  "port": 4001,
+  "api": {
+    "fakeBrickpi": false,
+    "leftMotor": "PORT_B",
+    "rightMotor": "PORT_A"
+  },
+  "logLevel": "debug"
+}

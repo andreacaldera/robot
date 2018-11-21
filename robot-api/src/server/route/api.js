@@ -12,9 +12,9 @@ export default ({ config }) => {
     logger.warn('Running fake brickpi implementation');
   }
 
-  const brickPiService = config.api.fakeBrickpi ?
-    require('../service/fake-brickpi')() : // eslint-disable-line global-require
-    require('../service/brickpi')({ config });  // eslint-disable-line global-require
+  const brickPiService = config.api.fakeBrickpi
+    ? require('../service/fake-brickpi')() // eslint-disable-line global-require
+    : require('../service/brickpi')({ config }); // eslint-disable-line global-require
 
   router.post('/control-move', (req, res, next) =>
     Promise.resolve()
@@ -41,31 +41,39 @@ export default ({ config }) => {
           rightMotorSpeed: speedValue * -1,
         };
       })
-      .then(({ leftMotorSpeed, rightMotorSpeed }) => brickPiService.setMotorsSpeed({ leftMotorSpeed, rightMotorSpeed }))
+      .then(({ leftMotorSpeed, rightMotorSpeed }) =>
+        brickPiService.setMotorsSpeed({ leftMotorSpeed, rightMotorSpeed })
+      )
       .then(() => brickPiService.getMotorsSpeed())
-      .then(({ leftMotorSpeed, rightMotorSpeed }) => res.send({ leftMotorSpeed, rightMotorSpeed }))
+      .then(({ leftMotorSpeed, rightMotorSpeed }) =>
+        res.send({ leftMotorSpeed, rightMotorSpeed })
+      )
       .catch(next)
   );
 
   router.post('/reset-motors', (req, res) => {
     logger.debug('Resetting motors');
-    return brickPiService.setMotorsSpeed({ leftMotorSpeed: 0, rightMotorSpeed: 0 })
+    return brickPiService
+      .setMotorsSpeed({ leftMotorSpeed: 0, rightMotorSpeed: 0 })
       .then(() => brickPiService.getMotorsSpeed())
-      .then(({ leftMotorSpeed, rightMotorSpeed }) => res.send({ leftMotorSpeed, rightMotorSpeed }));
+      .then(({ leftMotorSpeed, rightMotorSpeed }) =>
+        res.send({ leftMotorSpeed, rightMotorSpeed })
+      );
   });
 
-  router.get('/play/:sound', (req, res, next) => {
+  router.get('/play/:sound', (req, res) => {
     logger.debug(`Play sound ${req.params.sound}`);
 
+    res.sendStatus(202);
+
     return player().play(`./sounds/${req.params.sound}.mp3`, (err) => {
-      if (err) return next(err);
-      return res.sendStatus(202);
+      if (err) {
+        logger.error(`Unable to play sound ${req.params.sound}`);
+      }
     });
   });
 
-  router.get('/*', (req, res, next) =>
-    next(new Error('Not found'))
-  );
+  router.get('/*', (req, res, next) => next(new Error('Not found')));
 
   return router;
 };

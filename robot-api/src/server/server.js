@@ -1,19 +1,22 @@
 import Express from 'express';
 import cookieParser from 'cookie-parser';
-import path from 'path';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import ip from 'ip';
 
-import ui from './route/ui';
+import api from './route/api';
 import config from './config';
 import logger from './logger';
 
 const app = Express();
 
+const c = cors();
+app.use(c);
+app.options('*', c);
+
 app.use(bodyParser.json());
 
 app.use(cookieParser());
-app.use('/dist', Express.static(path.join(__dirname, '../../dist')));
 
 const { port } = config;
 logger.debug('Using port', port);
@@ -21,7 +24,7 @@ logger.debug('Using port', port);
 export default () =>
   Promise.resolve()
     .then(() => {
-      app.use(ui({ config }));
+      app.use('/api', api({ config }));
 
       // eslint-disable-next-line no-unused-vars
       app.use((err, req, res, next) => {

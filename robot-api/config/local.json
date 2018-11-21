@@ -1,0 +1,7 @@
+{
+  "port": 4001,
+  "api": {
+    "fakeBrickpi": true
+  },
+  "logLevel": "debug"
+}

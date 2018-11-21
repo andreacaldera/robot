@@ -1,7 +1,15 @@
-import { throttle, select, call, takeLatest, put, takeEvery } from 'redux-saga/effects';
+import {
+  throttle,
+  select,
+  call,
+  takeLatest,
+  put,
+  takeEvery,
+} from 'redux-saga/effects';
 import superagent from 'superagent';
 
-import { RESET_MOTORS,
+import {
+  RESET_MOTORS,
   SET_MOTORS_DATA,
   PLAY_SOUND,
   SET_ERROR,
@@ -16,16 +24,17 @@ import { getSpeed, getSteer, getError } from './selectors';
 import { getBaseApiUrl } from '../meta/selectors';
 
 const callApi = (url, payload) => () =>
-  superagent.post(url)
+  superagent
+    .post(url)
     .set('Accept', 'application/json')
     .send(payload)
     .timeout({ response: 9000, deadline: 10000 })
     .then(({ body }) => body);
 
 const callPlaySoundApi = (url) => ({ payload }) =>
-  superagent.get(`${url}/${payload}`)
+  superagent
+    .get(`${url}/${payload}`)
     .set('Accept', 'application/json')
-    .withCredentials()
     .timeout({ response: 9000, deadline: 10000 });
 
 function* setError(err) {
@@ -45,7 +54,9 @@ function* controlMove() {
     const steerValue = yield select(getSteer);
     const speedValue = yield select(getSpeed);
     const baseApiUrl = yield select(getBaseApiUrl);
-    const motors = yield call(callApi(`${baseApiUrl}/control-move`, { steerValue, speedValue }));
+    const motors = yield call(
+      callApi(`${baseApiUrl}/control-move`, { steerValue, speedValue })
+    );
     yield put({ type: SET_MOTORS_DATA, payload: motors });
   } catch (err) {
     yield setError(err);
@@ -58,6 +69,8 @@ function* resetMotors() {
     const baseApiUrl = yield select(getBaseApiUrl);
     const motors = yield call(callApi(`${baseApiUrl}/reset-motors`));
     yield put({ type: SET_MOTORS_DATA, payload: motors });
+    yield put({ type: SET_STEER, payload: 0 });
+    yield put({ type: SET_SPEED, payload: 0 });
   } catch (err) {
     yield setError(err);
   }

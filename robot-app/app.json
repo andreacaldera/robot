@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "sdkVersion": "26.0.0",
+    "name": "robot-app",
+    "slug": "robot-app",
+    "privacy": "public",
+    "orientation": "portrait"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "robot-app",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "jest --forceExit",
+    "lint": "eslint App.js",
+    "prettier": "prettier 'App.js' \"src/**/*.js\" \"src/**/*.jsx\" --write",
+    "precommit": "lint-staged",
+    "prepush": "npm run test"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run prettier",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-flowtype": "^2.46.2",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "husky": "^0.14.3",
+    "jest-expo": "26.0.0",
+    "lint-staged": "^7.0.4",
+    "prettier": "^1.12.1",
+    "react-dom": "^16.4.0",
+    "react-native-scripts": "1.13.1",
+    "react-test-renderer": "16.3.0-alpha.1",
+    "redux-mock-store": "^1.5.1"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "jest": {
+    "preset": "jest-expo",
+    "setupFiles": [
+      "<rootDir>/jest-setup.js"
+    ]
+  },
+  "dependencies": {
+    "expo": "^26.0.0",
+    "lodash": "^4.17.11",
+    "prop-types": "^15.6.1",
+    "react": "16.3.0-alpha.1",
+    "react-native": "0.54.0",
+    "react-navigation": "^2.0.1",
+    "react-redux": "^5.0.6",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^0.16.0",
+    "reselect": "^4.0.0",
+    "socket.io-client": "^2.1.1",
+    "superagent": "^4.0.0"
+  }
+}

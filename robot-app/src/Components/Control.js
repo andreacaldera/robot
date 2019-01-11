@@ -32,7 +32,7 @@ const Control = ({ motorsData, resetMotors, speedUp, slowDown }) => (
       <Text style={commonStyles.btnText}>Speed up</Text>
     </TouchableOpacity>
     <TouchableOpacity onPress={resetMotors} style={commonStyles.btnDanger}>
-      <Text style={commonStyles.btnTextDanger}>Reset motors</Text>
+      <Text style={commonStyles.btnTextDanger}>Stop</Text>
     </TouchableOpacity>
     <TouchableOpacity onPress={slowDown} style={commonStyles.btn}>
       <Text style={commonStyles.btnText}>Speed down</Text>

@@ -61,6 +61,7 @@ function* speedUp() {
   try {
     const baseApiUrl = yield select(getBaseApiUrl);
     const { leftMotorSpeed, rightMotorSpeed } = yield select(getMotorsData);
+    console.log('speeding up!!');
 
     const motors = yield call(
       apiPost(`${baseApiUrl}/set-motors`, {
@@ -70,11 +71,13 @@ function* speedUp() {
     );
     yield put({ type: SET_MOTORS_DATA, payload: motors });
   } catch (err) {
+    console.error('Unable to speed up', err);
     yield setError(err);
   }
 }
 
 export function* watchSpeedUp() {
+  console.log('watch speed up');
   yield takeLatest(SPEED_UP, speedUp);
 }
 
@@ -91,6 +94,7 @@ function* slowDown() {
     );
     yield put({ type: SET_MOTORS_DATA, payload: motors });
   } catch (err) {
+    console.error('Unable to slow down', err);
     yield setError(err);
   }
 }
@@ -105,6 +109,7 @@ export function* loadMotorsSpeed() {
     const motors = yield call(apiGet(`${baseApiUrl}/motors-speed`));
     yield put({ type: SET_MOTORS_DATA, payload: motors });
   } catch (err) {
+    console.error('Unable to load motors', err);
     yield setError(err);
   }
 }

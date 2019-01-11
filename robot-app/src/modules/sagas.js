@@ -8,7 +8,10 @@ import {
 } from './feet/sagas';
 
 export default function* rootSaga() {
-  yield all[
-    (loadMotorsSpeed(), watchResetMotors(), watchSpeedUp(), watchSlowDown())
-  ];
+  yield all([
+    loadMotorsSpeed(),
+    watchResetMotors(),
+    watchSpeedUp(),
+    watchSlowDown(),
+  ]);
 }

@@ -6,6 +6,8 @@ import selectors from './selectors';
 
 const moduleProps = Object.assign({}, selectors, constants);
 
-_.forEach(moduleProps, (prop, propName) => { rootReducer[propName] = prop; });
+_.forEach(moduleProps, (prop, propName) => {
+  rootReducer[propName] = prop;
+});
 
 module.exports = rootReducer;

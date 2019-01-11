@@ -53,7 +53,7 @@ function* resetMotors() {
   }
 }
 
-function* watchResetMotors() {
+export function* watchResetMotors() {
   yield takeLatest(RESET_MOTORS, resetMotors);
 }
 
@@ -74,7 +74,7 @@ function* speedUp() {
   }
 }
 
-function* watchSpeedUp() {
+export function* watchSpeedUp() {
   yield takeLatest(SPEED_UP, speedUp);
 }
 
@@ -95,11 +95,11 @@ function* slowDown() {
   }
 }
 
-function* watchSlowDown() {
+export function* watchSlowDown() {
   yield takeLatest(SLOW_DOWN, slowDown);
 }
 
-function* loadMotorsSpeed() {
+export function* loadMotorsSpeed() {
   try {
     const baseApiUrl = yield select(getBaseApiUrl);
     const motors = yield call(apiGet(`${baseApiUrl}/motors-speed`));
@@ -108,5 +108,3 @@ function* loadMotorsSpeed() {
     yield setError(err);
   }
 }
-
-export default [loadMotorsSpeed, watchResetMotors, watchSpeedUp, watchSlowDown];

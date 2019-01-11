@@ -1,5 +1,14 @@
-import feetSagas from './feet/sagas';
+import { all } from 'redux-saga/effects';
+
+import {
+  loadMotorsSpeed,
+  watchResetMotors,
+  watchSpeedUp,
+  watchSlowDown,
+} from './feet/sagas';
 
 export default function* rootSaga() {
-  yield [feetSagas.map((saga) => saga())];
+  yield all[
+    (loadMotorsSpeed(), watchResetMotors(), watchSpeedUp(), watchSlowDown())
+  ];
 }

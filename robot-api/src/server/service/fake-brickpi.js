@@ -8,15 +8,15 @@ export default () => {
 
   const getMotorsSpeed = () => {
     logger.debug(
-      `Current speed is ${brickpi.leftMotorSpeed}, ${brickpi.rightMotorSpeed}`
+      `Current speed is ${brickpi.leftMotorSpeed}, ${brickpi.rightMotorSpeed}`,
     );
     return Promise.resolve(brickpi);
   };
 
   const setMotorsSpeed = ({ leftMotorSpeed, rightMotorSpeed }) => {
     logger.debug(`Setting motor speed ${leftMotorSpeed}, ${rightMotorSpeed}`);
-    brickpi.leftMotorSpeed = leftMotorSpeed;
-    brickpi.rightMotorSpeed = rightMotorSpeed;
+    brickpi.leftMotorSpeed = leftMotorSpeed || 0;
+    brickpi.rightMotorSpeed = rightMotorSpeed || 0;
     return Promise.resolve(brickpi);
   };
 

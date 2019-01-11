@@ -1,13 +1,8 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import meta from './meta';
-import feet from './feet';
+import feet from '../modules/feet/reducers';
+import meta from '../modules/meta/reducers';
 
-import { NAMESPACE } from './constants';
-
-const rootReducer = combineReducers({
-  meta,
+export default combineReducers({
   feet,
+  meta,
 });
-
-module.exports = combineReducers({ routing: routerReducer, [NAMESPACE]: rootReducer });

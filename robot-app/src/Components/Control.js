@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import commonStyles from '../styles';
 import * as feetActions from '../modules/feet/actions';
+import { getMotorsData } from '../modules/feet/selectors';
 
 const styles = StyleSheet.create({
   ...commonStyles,
@@ -21,22 +22,43 @@ const styles = StyleSheet.create({
   },
 });
 
-const Control = ({ resetMotors }) => (
+const Control = ({ motorsData, resetMotors, speedUp, slowDown }) => (
   <View style={styles.mainContainer}>
     <Text style={commonStyles.btnText}>Welcome to Abune Shiatzu controls</Text>
-    <TouchableOpacity onPress={resetMotors} style={commonStyles.btn}>
-      <Text style={commonStyles.btnText}>Reset motors</Text>
+    <Text>
+      Motors data: {motorsData.leftMotorSpeed} | {motorsData.rightMotorSpeed}
+    </Text>
+    <TouchableOpacity onPress={speedUp} style={commonStyles.btn}>
+      <Text style={commonStyles.btnText}>Speed up</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={resetMotors} style={commonStyles.btnDanger}>
+      <Text style={commonStyles.btnTextDanger}>Reset motors</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={slowDown} style={commonStyles.btn}>
+      <Text style={commonStyles.btnText}>Speed down</Text>
     </TouchableOpacity>
   </View>
 );
 
 Control.propTypes = {
+  motorsData: PropTypes.shape({
+    leftMotorSpeed: PropTypes.number.isRequired,
+    rightMotorSpeed: PropTypes.number.isRequired,
+  }).isRequired,
   resetMotors: PropTypes.func.isRequired,
+  speedUp: PropTypes.func.isRequired,
+  slowDown: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (/* state */) => ({});
+const mapStateToProps = (state) => ({
+  motorsData: getMotorsData(state),
+});
 
 export default connect(
   mapStateToProps,
-  { resetMotors: feetActions.resetMotors },
+  {
+    resetMotors: feetActions.resetMotors,
+    speedUp: feetActions.speedUp,
+    slowDown: feetActions.slowDown,
+  },
 )(Control);

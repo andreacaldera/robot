@@ -16,8 +16,17 @@ export default {
     ...BUTTON,
     backgroundColor: '#ccc',
   },
+  btnDanger: {
+    ...BUTTON,
+    backgroundColor: '#f8d7da',
+    borderColor: '#f5c6cb',
+  },
   btnText: {
     fontSize: 15,
+  },
+  btnTextDanger: {
+    fontSize: 15,
+    color: '#721c24',
   },
   container: {
     flex: 1,

@@ -90,6 +90,14 @@ export default ({ config }) => {
     });
   });
 
+  router.get('/test', (req, res) => {
+    const headers = Object.entries(req.headers).map(
+      (key, value) => `<div>${key} - ${value}</div>`,
+    );
+    console.log(req.headers);
+    res.send('<h1>HEADERS</h1>' + headers);
+  });
+
   router.get('/*', (req, res, next) => next(new Error('Not found')));
 
   return router;

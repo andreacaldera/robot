@@ -12,6 +12,12 @@ const BUTTON = {
 
 export default {
   btn: BUTTON,
+  buttonInRow: {
+    ...BUTTON,
+    flex: 1 / 4,
+    marginLeft: 5,
+    marginRight: 5,
+  },
   btnSecondary: {
     ...BUTTON,
     backgroundColor: '#ccc',

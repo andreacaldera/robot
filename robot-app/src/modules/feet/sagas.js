@@ -11,6 +11,9 @@ import {
   SET_STEER,
   SPEED_UP,
   SLOW_DOWN,
+  TURN_LEFT,
+  TURN_RIGHT,
+  RESET_STEER,
 } from './constants';
 import { getError, getMotorsData } from './selectors';
 
@@ -57,50 +60,129 @@ export function* watchResetMotors() {
   yield takeLatest(RESET_MOTORS, resetMotors);
 }
 
-function* speedUp() {
-  try {
-    const baseApiUrl = yield select(getBaseApiUrl);
-    const { leftMotorSpeed, rightMotorSpeed } = yield select(getMotorsData);
-    console.log('speeding up!!');
-
-    const motors = yield call(
-      apiPost(`${baseApiUrl}/set-motors`, {
-        leftMotorSpeed: leftMotorSpeed + 10,
-        rightMotorSpeed: rightMotorSpeed + 10,
-      }),
-    );
-    yield put({ type: SET_MOTORS_DATA, payload: motors });
-  } catch (err) {
-    console.error('Unable to speed up', err);
-    yield setError(err);
-  }
-}
-
 export function* watchSpeedUp() {
-  console.log('watch speed up');
+  function* speedUp() {
+    try {
+      const baseApiUrl = yield select(getBaseApiUrl);
+      const { leftMotorSpeed, rightMotorSpeed } = yield select(getMotorsData);
+
+      const motors = yield call(
+        apiPost(`${baseApiUrl}/set-motors`, {
+          leftMotorSpeed: leftMotorSpeed + 10,
+          rightMotorSpeed: rightMotorSpeed + 10,
+        }),
+      );
+      yield put({ type: SET_MOTORS_DATA, payload: motors });
+    } catch (err) {
+      yield setError(err);
+    }
+  }
   yield takeLatest(SPEED_UP, speedUp);
 }
 
-function* slowDown() {
-  try {
-    const baseApiUrl = yield select(getBaseApiUrl);
-    const { leftMotorSpeed, rightMotorSpeed } = yield select(getMotorsData);
+export function* watchSlowDown() {
+  function* slowDown() {
+    try {
+      const baseApiUrl = yield select(getBaseApiUrl);
+      const { leftMotorSpeed, rightMotorSpeed } = yield select(getMotorsData);
 
-    const motors = yield call(
-      apiPost(`${baseApiUrl}/set-motors`, {
-        leftMotorSpeed: leftMotorSpeed - 10,
-        rightMotorSpeed: rightMotorSpeed - 10,
-      }),
-    );
-    yield put({ type: SET_MOTORS_DATA, payload: motors });
-  } catch (err) {
-    console.error('Unable to slow down', err);
-    yield setError(err);
+      const motors = yield call(
+        apiPost(`${baseApiUrl}/set-motors`, {
+          leftMotorSpeed: leftMotorSpeed - 10,
+          rightMotorSpeed: rightMotorSpeed - 10,
+        }),
+      );
+      yield put({ type: SET_MOTORS_DATA, payload: motors });
+    } catch (err) {
+      yield setError(err);
+    }
   }
+  yield takeLatest(SLOW_DOWN, slowDown);
 }
 
-export function* watchSlowDown() {
-  yield takeLatest(SLOW_DOWN, slowDown);
+export function* watchTurnLeft() {
+  function* turnLeft() {
+    try {
+      const baseApiUrl = yield select(getBaseApiUrl);
+      const { leftMotorSpeed, rightMotorSpeed } = yield select(getMotorsData);
+
+      const motors = yield call(
+        apiPost(`${baseApiUrl}/set-motors`, {
+          leftMotorSpeed: leftMotorSpeed - 5,
+          rightMotorSpeed: rightMotorSpeed + 5,
+        }),
+      );
+      yield put({ type: SET_MOTORS_DATA, payload: motors });
+    } catch (err) {
+      yield setError(err);
+    }
+  }
+
+  yield takeLatest(TURN_LEFT, turnLeft);
+}
+
+export function* watchTurnRight() {
+  function* turnRight() {
+    try {
+      const baseApiUrl = yield select(getBaseApiUrl);
+      const { leftMotorSpeed, rightMotorSpeed } = yield select(getMotorsData);
+
+      const motors = yield call(
+        apiPost(`${baseApiUrl}/set-motors`, {
+          leftMotorSpeed: leftMotorSpeed + 5,
+          rightMotorSpeed: rightMotorSpeed - 5,
+        }),
+      );
+      yield put({ type: SET_MOTORS_DATA, payload: motors });
+    } catch (err) {
+      yield setError(err);
+    }
+  }
+
+  yield takeLatest(TURN_RIGHT, turnRight);
+}
+
+const getMedianSpeed = (leftMotorSpeed, rightMotorSpeed) => {
+  if (leftMotorSpeed <= 0 && rightMotorSpeed <= 0) {
+    return (Math.abs(leftMotorSpeed) + Math.abs(rightMotorSpeed)) / -2;
+  }
+
+  if (leftMotorSpeed >= 0 && rightMotorSpeed >= 0) {
+    return (Math.abs(leftMotorSpeed) + Math.abs(rightMotorSpeed)) / 2;
+  }
+
+  if (leftMotorSpeed < 0) {
+    return (leftMotorSpeed + rightMotorSpeed) / -2;
+  }
+
+  if (rightMotorSpeed < 0) {
+    return (leftMotorSpeed + rightMotorSpeed) / -2;
+  }
+
+  return 0;
+};
+
+export function* watchResetSteer() {
+  function* turnRight() {
+    try {
+      const baseApiUrl = yield select(getBaseApiUrl);
+      const { leftMotorSpeed, rightMotorSpeed } = yield select(getMotorsData);
+
+      const speed = getMedianSpeed(leftMotorSpeed, rightMotorSpeed);
+
+      const motors = yield call(
+        apiPost(`${baseApiUrl}/set-motors`, {
+          leftMotorSpeed: speed,
+          rightMotorSpeed: speed,
+        }),
+      );
+      yield put({ type: SET_MOTORS_DATA, payload: motors });
+    } catch (err) {
+      yield setError(err);
+    }
+  }
+
+  yield takeLatest(RESET_STEER, turnRight);
 }
 
 export function* loadMotorsSpeed() {
@@ -109,7 +191,6 @@ export function* loadMotorsSpeed() {
     const motors = yield call(apiGet(`${baseApiUrl}/motors-speed`));
     yield put({ type: SET_MOTORS_DATA, payload: motors });
   } catch (err) {
-    console.error('Unable to load motors', err);
     yield setError(err);
   }
 }

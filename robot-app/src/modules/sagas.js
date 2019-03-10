@@ -5,6 +5,9 @@ import {
   watchResetMotors,
   watchSpeedUp,
   watchSlowDown,
+  watchTurnLeft,
+  watchTurnRight,
+  watchResetSteer,
 } from './feet/sagas';
 
 export default function* rootSaga() {
@@ -13,5 +16,8 @@ export default function* rootSaga() {
     watchResetMotors(),
     watchSpeedUp(),
     watchSlowDown(),
+    watchTurnLeft(),
+    watchTurnRight(),
+    watchResetSteer(),
   ]);
 }

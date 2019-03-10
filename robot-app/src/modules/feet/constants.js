@@ -1,8 +1,10 @@
 export const RESET_MOTORS = 'feet/RESET_MOTORS';
 export const SET_MOTORS_DATA = 'feet/SET_MOTORS_DATA';
 
-export const SLIDE_LEFT = 'feet/SLIDE_LEFT';
-export const SLIDE_RIGHT = 'feet/SLIDE_RIGHT';
+export const TURN_LEFT = 'feet/TURN_LEFT';
+export const TURN_RIGHT = 'feet/TURN_RIGHT';
+export const RESET_STEER = 'feet/RESET_STEER';
+
 export const SPEED_UP = 'feet/SPEED_UP';
 export const SLOW_DOWN = 'feet/SLOW_DOWN';
 

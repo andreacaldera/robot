@@ -22,7 +22,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const Control = ({ motorsData, resetMotors, speedUp, slowDown }) => (
+const Control = ({
+  motorsData,
+  resetMotors,
+  speedUp,
+  slowDown,
+  turnLeft,
+  turnRight,
+  resetSteer,
+}) => (
   <View style={styles.mainContainer}>
     <Text style={commonStyles.btnText}>Welcome to Abune Shiatzu controls</Text>
     <Text>
@@ -31,12 +39,25 @@ const Control = ({ motorsData, resetMotors, speedUp, slowDown }) => (
     <TouchableOpacity onPress={speedUp} style={commonStyles.btn}>
       <Text style={commonStyles.btnText}>Speed up</Text>
     </TouchableOpacity>
-    <TouchableOpacity onPress={resetMotors} style={commonStyles.btnDanger}>
-      <Text style={commonStyles.btnTextDanger}>Stop</Text>
-    </TouchableOpacity>
+    <View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity onPress={turnLeft} style={commonStyles.buttonInRow}>
+        <Text style={commonStyles.btnText}>Turn left</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={resetSteer} style={commonStyles.buttonInRow}>
+        <Text style={commonStyles.btnText}>Straight</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={turnRight} style={commonStyles.buttonInRow}>
+        <Text style={commonStyles.btnText}>Turn right</Text>
+      </TouchableOpacity>
+    </View>
     <TouchableOpacity onPress={slowDown} style={commonStyles.btn}>
       <Text style={commonStyles.btnText}>Speed down</Text>
     </TouchableOpacity>
+    <View style={{ marginTop: 20 }}>
+      <TouchableOpacity onPress={resetMotors} style={commonStyles.btnDanger}>
+        <Text style={commonStyles.btnTextDanger}>Stop</Text>
+      </TouchableOpacity>
+    </View>
   </View>
 );
 
@@ -48,6 +69,9 @@ Control.propTypes = {
   resetMotors: PropTypes.func.isRequired,
   speedUp: PropTypes.func.isRequired,
   slowDown: PropTypes.func.isRequired,
+  turnLeft: PropTypes.func.isRequired,
+  turnRight: PropTypes.func.isRequired,
+  resetSteer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -60,5 +84,8 @@ export default connect(
     resetMotors: feetActions.resetMotors,
     speedUp: feetActions.speedUp,
     slowDown: feetActions.slowDown,
+    turnLeft: feetActions.turnLeft,
+    turnRight: feetActions.turnRight,
+    resetSteer: feetActions.resetSteer,
   },
 )(Control);
